@@ -1,5 +1,5 @@
-# shopping_app
-make trading stuff app in flutter
+# trading_stuff_app
+make trading stuff app in flutter using firebase database
 
 # Environment
 Android Studio Electric Eel | 2022.1.1 Patch 1 <br>
