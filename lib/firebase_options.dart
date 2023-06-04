@@ -42,42 +42,4 @@ class DefaultFirebaseOptions {
         );
     }
   }
-
-  static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyAGvEf9AM2cO41tRpD1BTaL7lvJqG8NxQQ',
-    appId: '1:749041811501:web:9bdfcdb54fc4f93bf1b8a4',
-    messagingSenderId: '749041811501',
-    projectId: 'shop-app-d4393',
-    authDomain: 'shop-app-d4393.firebaseapp.com',
-    storageBucket: 'shop-app-d4393.appspot.com',
-    measurementId: 'G-F5WTHKEWWF',
-  );
-
-  static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyBrLfEigZRV-UQJYwxCQBT1YmyY_k26Xrs',
-    appId: '1:749041811501:android:ec6e9e69a4b53681f1b8a4',
-    messagingSenderId: '749041811501',
-    projectId: 'shop-app-d4393',
-    storageBucket: 'shop-app-d4393.appspot.com',
-  );
-
-  static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyBGWINqdpW_yAbSHDKE3QL3cBW8pbpcIfA',
-    appId: '1:749041811501:ios:af91d2ac5a56cfd4f1b8a4',
-    messagingSenderId: '749041811501',
-    projectId: 'shop-app-d4393',
-    storageBucket: 'shop-app-d4393.appspot.com',
-    iosClientId: '749041811501-ee8dargshecnk5sdn28muh3ksij3o9ev.apps.googleusercontent.com',
-    iosBundleId: 'com.example.shoppingApp',
-  );
-
-  static const FirebaseOptions macos = FirebaseOptions(
-    apiKey: 'AIzaSyBGWINqdpW_yAbSHDKE3QL3cBW8pbpcIfA',
-    appId: '1:749041811501:ios:01936b56c46131cdf1b8a4',
-    messagingSenderId: '749041811501',
-    projectId: 'shop-app-d4393',
-    storageBucket: 'shop-app-d4393.appspot.com',
-    iosClientId: '749041811501-9e1pe1or9tdqef7ca882f6d9n4h9arnr.apps.googleusercontent.com',
-    iosBundleId: 'com.example.shoppingApp.RunnerTests',
-  );
-}
+  //이하 개인 api 관련 정보 삭제
