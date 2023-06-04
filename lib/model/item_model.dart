@@ -33,8 +33,3 @@ class Item {
     price = data['price'];
   }
 }
-
-class RegiDate {
-  final String regi;
-  RegiDate(this.regi);
-}
