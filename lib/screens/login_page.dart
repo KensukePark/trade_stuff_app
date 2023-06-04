@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shopping_app/screens/register_page.dart';
+import 'package:shopping_app/screens/home_page.dart';
 import '../model/auth_model.dart';
 import '../model/login_model.dart';
 
@@ -95,7 +97,7 @@ class LoginButton extends StatelessWidget {
                 ..showSnackBar(SnackBar(
                     content:
                     Text('welcome! ' + authClient.user!.email! + ' ')));
-              Navigator.pushReplacementNamed(context, '/index');
+              Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage()));
             } else {
               ScaffoldMessenger.of(context)
                 ..hideCurrentSnackBar()
@@ -114,7 +116,7 @@ class RegisterButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextButton(
         onPressed: () {
-          Navigator.of(context).pushNamed('/register');
+          Navigator.push(context, MaterialPageRoute(builder: (context) => RegisterPage()));
         },
         child: Text(
           'Regist by email',

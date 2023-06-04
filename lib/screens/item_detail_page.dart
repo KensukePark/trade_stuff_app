@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import '../model/item_model.dart';
 class ItemDetailPage extends StatefulWidget {
   const ItemDetailPage({Key? key, required this.item, required this.register_date}) : super(key: key);
   final item;

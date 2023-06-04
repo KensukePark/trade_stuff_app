@@ -2,6 +2,8 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:shopping_app/screens/login_page.dart';
+import 'package:shopping_app/screens/home_page.dart';
 
 class LoadingPage extends StatefulWidget {
   @override
@@ -20,9 +22,9 @@ class _LoadingPage extends State<LoadingPage> {
   void moveScreen() async {
     await checkLogin().then((isLogin) {
       if (isLogin) {
-        Navigator.of(context).pushReplacementNamed('/index');
+        Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage()));
       } else {
-        Navigator.of(context).pushReplacementNamed('/login');
+        Navigator.push(context, MaterialPageRoute(builder: (context) => LoginPage()));
       }
     });
   }

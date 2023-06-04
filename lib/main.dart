@@ -4,11 +4,12 @@ import 'package:provider/provider.dart';
 import 'package:shopping_app/screens/item_detail_page.dart';
 import 'firebase_options.dart';
 import '../model/provider_model.dart';
+import '../model/auth_model.dart';
+import '../model/query_model.dart';
 import '../screens/login_page.dart';
 import '../screens/loading_Page.dart';
 import '../screens/register_page.dart';
-import '../model/auth_model.dart';
-import '../screens/screen_page.dart';
+import '../screens/home_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -26,7 +27,8 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => FirebaseAuthProvider()),
-        ChangeNotifierProvider(create: (_) => ItemProvider())
+        ChangeNotifierProvider(create: (_) => ItemProvider()),
+        ChangeNotifierProvider(create: (_) => QueryProvider()),
       ],
       child: MaterialApp(
         title: 'Flutter Shopping app',
@@ -34,14 +36,17 @@ class MyApp extends StatelessWidget {
           brightness: Brightness.dark,
           fontFamily: 'spoqa',
         ),
+        /*
         routes: {
           '/loading': (context) => LoadingPage(),
-          '/index': (context) => screenPage(),
+          '/index': (context) => HomePage(),
           '/login': (context) => LoginPage(),
           '/register': (context) => RegisterPage(),
           //'/detail': (context) => ItemDetailPage(),
         },
         initialRoute: '/loading',
+        */
+        home: LoadingPage(),
       )
     );
   }
