@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:provider/provider.dart';
+import 'package:shopping_app/screens/item_detail_page.dart';
 import 'firebase_options.dart';
 import '../model/provider_model.dart';
 import '../screens/login_page.dart';
@@ -18,7 +19,7 @@ void main() async {
 }
 
 class MyApp extends StatelessWidget {
-
+  const MyApp({super.key});
   @override
   Widget build(BuildContext context) {
 
@@ -38,6 +39,7 @@ class MyApp extends StatelessWidget {
           '/index': (context) => screenPage(),
           '/login': (context) => LoginPage(),
           '/register': (context) => RegisterPage(),
+          //'/detail': (context) => ItemDetailPage(),
         },
         initialRoute: '/loading',
       )

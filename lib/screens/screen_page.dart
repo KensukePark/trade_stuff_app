@@ -27,7 +27,7 @@ class _screenPage extends State<screenPage> {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        title: Text('산곡동'),
+        title: Text('중고거래'),
       ),
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
@@ -49,6 +49,17 @@ class _screenPage extends State<screenPage> {
         ],
       ),
       body: tabs[_currentIndex],
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: () {      },
+        label: const Text(
+            '글쓰기',
+            style: TextStyle(
+              color: Colors.white,
+            )
+        ),
+        icon: const Icon(Icons.add, color: Colors.white,),
+        backgroundColor: Colors.pink,
+      ),
     );
   }
 }

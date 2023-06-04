@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:shopping_app/screens/item_detail_page.dart';
 import '../model/provider_model.dart';
 
 class HomePage extends StatelessWidget{
@@ -66,7 +67,22 @@ class HomePage extends StatelessWidget{
                     register_print = (hour_now - int.parse(itemProvider.items[index].registerDate.substring(11,13))).toString() + '시간 전';
                   }
                   return InkWell(
-                    onTap: () {},
+                    onTap: () {
+                      /*
+                      Navigator.pushNamed(
+                        context,
+                        '/detail',
+                        arguments: (itemProvider.items[index], register_print)
+                      );
+                       */
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => ItemDetailPage(
+                            item: itemProvider.items[index],
+                            register_date: register_print)
+                        )
+                      );
+                    },
                     child: Column(
                       children: [
                         SizedBox(height: 5.0,),
@@ -92,26 +108,29 @@ class HomePage extends StatelessWidget{
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
+                                  SizedBox(height: 5.0,),
                                   Text(
                                     itemProvider.items[index].title,
                                     style: TextStyle(
-                                      fontSize: 14,
+                                      fontSize: 15,
                                       fontWeight: FontWeight.bold,
                                       color: Colors.white,
                                     ),
                                   ),
+                                  SizedBox(height: 3.0,),
                                   Text(
                                     itemProvider.items[index].loc + ' ' + register_print,
                                     style: TextStyle(
-                                      fontSize: 14,
+                                      fontSize: 15,
                                       fontWeight: FontWeight.bold,
                                       color: Colors.grey,
                                     ),
                                   ),
+                                  SizedBox(height: 3.0,),
                                   Text(
                                     format.format(itemProvider.items[index].price) + '원',
                                     style: TextStyle(
-                                      fontSize: 14,
+                                      fontSize: 15,
                                       fontWeight: FontWeight.bold,
                                       color: Colors.white,
                                     ),
