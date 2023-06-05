@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -6,6 +7,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shopping_app/model/like_model.dart';
 import 'package:shopping_app/screens/home_page.dart';
 import 'package:shopping_app/screens/item_detail_page.dart';
+import 'package:shopping_app/screens/like_item_detail_page.dart';
 import 'package:shopping_app/screens/profile_page.dart';
 import 'package:shopping_app/screens/search_page.dart';
 
@@ -28,6 +30,7 @@ class _LikePage extends State<LikePage> {
   var time_now;
   late int hour_now;
   var register_print;
+  late int like_temp;
   NumberFormat format = NumberFormat('#,###');
   Future<void> getUid() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -123,6 +126,7 @@ class _LikePage extends State<LikePage> {
                           context,
                           MaterialPageRoute(builder: (context) => ItemDetailPage(
                               item: like_provider.like_list[index],
+                              //id: like_provider.like_list[index].id,
                               register_date: register_print)
                           )
                       );
@@ -184,24 +188,38 @@ class _LikePage extends State<LikePage> {
                             ),
 
                             Expanded(
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                crossAxisAlignment: CrossAxisAlignment.center,
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
-                                  InkWell(
-                                    onTap: () {
-                                      like_provider.removeItem(uid, like_provider.like_list[index]);
-                                    },
-                                    child: Column(
-                                      children: [
-                                        Icon(
-                                          Icons.favorite,
-                                          color: Colors.blue,
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    children: [
+                                      InkWell(
+                                        onTap: () {
+                                          final usercol = FirebaseFirestore.instance.collection("items").doc(like_provider.like_list[index].id);
+                                          usercol.get().then((value) => {
+                                            like_temp = (value.data()?['like_count'] - 1)
+                                          });
+                                          usercol.update({
+                                            "like_count": like_temp,
+                                          });
+                                          like_provider.removeItem(uid, like_provider.like_list[index]);
+                                        },
+                                        child: Column(
+                                          children: [
+                                            Icon(
+                                              Icons.favorite,
+                                              color: Colors.blue,
+                                            ),
+                                          ],
                                         ),
-                                      ],
-                                    ),
+                                      ),
+                                    ],
                                   ),
-
+                                  SizedBox(
+                                    height: MediaQuery.of(context).size.width * 0.30 - 40,
+                                  ),
                                 ],
                               ),
                             ),

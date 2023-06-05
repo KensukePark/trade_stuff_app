@@ -9,8 +9,8 @@ class Item {
   late String img;
   late String loc;
   late int price;
-  late String view_count;
-  late String like_count;
+  late int view_count;
+  late int like_count;
 
   Item({
     required this.id,

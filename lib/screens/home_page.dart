@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -27,8 +28,8 @@ class _HomePage extends State<HomePage> {
   var time_now;
   late int hour_now;
   var register_print;
+  late int view_temp;
   NumberFormat format = NumberFormat('#,###');
-
   @override
   Widget build(BuildContext context) {
     final itemProvider = Provider.of<ItemProvider>(context);
@@ -90,6 +91,8 @@ class _HomePage extends State<HomePage> {
                   shrinkWrap: true,
                   itemCount: itemProvider.items.length,
                   itemBuilder: (context, index) {
+                    view_temp = itemProvider.items[index].view_count;
+                    //int like_temp = itemProvider.items[index].like_count;
                     if ((itemProvider.items[index].registerDate).substring(0,10) != date_now) {
                       //ex) 2023-06-04 substring5,7 => 월, 8,10 => 일
                       var register_year = int.parse((itemProvider.items[index].registerDate).substring(0,4));
@@ -112,6 +115,14 @@ class _HomePage extends State<HomePage> {
                     }
                     return InkWell(
                       onTap: () {
+                        final usercol = FirebaseFirestore.instance.collection("items").doc(itemProvider.items[index].id);
+                        usercol.get().then((value) => {
+                          view_temp = (value.data()?['view_count'])
+                        });
+                        view_temp++;
+                        usercol.update({
+                          "view_count": view_temp,
+                        });
                         Navigator.push(
                             context,
                             MaterialPageRoute(builder: (context) => ItemDetailPage(
@@ -175,6 +186,30 @@ class _HomePage extends State<HomePage> {
                                   ],
                                 ),
                               ),
+                              Expanded(
+                                child: Column(
+                                  children: [
+                                    Container(height: MediaQuery.of(context).size.width * 0.3 - 24,),
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      children: [
+                                        Icon(
+                                          Icons.favorite_border,
+                                          color: Colors.white,
+                                          size: 24,
+                                        ),
+                                        Text(
+                                          '${itemProvider.items[index].like_count}',
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 16,
+                                          )
+                                        )
+                                      ],
+                                    ),
+                                  ],
+                                )
+                              )
                             ],
                           ),
                           SizedBox(height: 5.0,),
