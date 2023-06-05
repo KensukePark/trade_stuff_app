@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:shopping_app/model/like_model.dart';
+
 class ItemDetailPage extends StatefulWidget {
   const ItemDetailPage({Key? key, required this.item, required this.register_date}) : super(key: key);
   final item;
@@ -9,9 +13,16 @@ class ItemDetailPage extends StatefulWidget {
 }
 
 class ItemDetailPageState extends State<ItemDetailPage> {
+  late String uid = '';
+  Future<void> getUid() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    uid = prefs.getString('uid') ?? '';
+  }
   NumberFormat format = NumberFormat('#,###');
   @override
   Widget build(BuildContext context) {
+    final like_provider = Provider.of<LikeProvider>(context);
+    getUid();
     return Scaffold(
       body: Column(
         children: [
@@ -65,11 +76,11 @@ class ItemDetailPageState extends State<ItemDetailPage> {
                             )
                           ],
                         ),
-                        SizedBox(height: 15,),
+                        SizedBox(height: 10,),
                         Divider(
                           thickness: 1.0,
                         ),
-                        SizedBox(height: 15,),
+                        SizedBox(height: 10,),
                         Text(
                           widget.item.title,
                           style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
@@ -96,6 +107,7 @@ class ItemDetailPageState extends State<ItemDetailPage> {
             child: Column(
               children: [
                 Divider(thickness: 1.0,),
+                SizedBox(height: 5.0),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -103,21 +115,35 @@ class ItemDetailPageState extends State<ItemDetailPage> {
                       format.format(widget.item.price) + '원',
                       style: TextStyle(fontSize: 16, color: Colors.white),
                     ),
+
+                    like_provider.isItem(widget.item) ?
                     InkWell(
-                      onTap: () { },
+                      onTap: () {
+                        like_provider.removeItem(uid, widget.item);
+                      },
+                      child: Column(
+                        children: [
+                          Icon(
+                            Icons.favorite,
+                            color: Colors.blue,
+                          ),
+                        ],
+                      ),
+                    )
+                    :
+                    InkWell(
+                      onTap: () {
+                        like_provider.addItem(uid, widget.item);
+                      },
                       child: Column(
                         children: [
                           Icon(
                             Icons.favorite_border,
                             color: Colors.blue,
                           ),
-                          Text(
-                            'add cart',
-                            style: TextStyle(color: Colors.blue),
-                          )
                         ],
                       ),
-                    )
+                    ),
                   ],
                 ),
               ],

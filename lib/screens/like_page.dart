@@ -182,6 +182,29 @@ class _LikePage extends State<LikePage> {
                                 ],
                               ),
                             ),
+
+                            Expanded(
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  InkWell(
+                                    onTap: () {
+                                      like_provider.removeItem(uid, like_provider.like_list[index]);
+                                    },
+                                    child: Column(
+                                      children: [
+                                        Icon(
+                                          Icons.favorite,
+                                          color: Colors.blue,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+
+                                ],
+                              ),
+                            ),
                           ],
                         ),
                         SizedBox(height: 5.0,),

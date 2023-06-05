@@ -29,30 +29,30 @@ class LikeProvider with ChangeNotifier {
     }
   }
 
-  Future<void> addCartItem(String uid, Item item) async {
+  Future<void> addItem(String uid, Item item) async {
     like_list.add(item);
-    Map<String, dynamic> cartItemsMap = {
-      'items': like_list.map( (item) {
+    Map<String, dynamic> LikedItemsMap = {
+      'items': like_list.map((item) {
         return item.toSnapshot();
       }).toList()
     };
-    await _reference.doc(uid).set(cartItemsMap);
+    await _reference.doc(uid).set(LikedItemsMap);
     notifyListeners();
   }
 
-  Future<void> removeCartItem(String uid, Item item) async {
+  Future<void> removeItem(String uid, Item item) async {
     like_list.removeWhere((element) => element.id == item.id);
-    Map<String, dynamic> cartItemsMap = {
+    Map<String, dynamic> LikedItemsMap = {
       'items': like_list.map((item) {
         return item.toSnapshot();
       }).toList()
     };
 
-    await _reference.doc(uid).set(cartItemsMap);
+    await _reference.doc(uid).set(LikedItemsMap);
     notifyListeners();
   }
 
-  bool isCartItemIn(Item item) {
+  bool isItem(Item item) {
     return like_list.any((element) => element.id == item.id);
   }
 }
