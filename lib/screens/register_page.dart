@@ -3,7 +3,6 @@ import 'package:provider/provider.dart';
 import '../model/auth_model.dart';
 import '../model/register_model.dart';
 
-
 class RegisterPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {

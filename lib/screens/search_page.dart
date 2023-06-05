@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
-import 'package:shopping_app/screens/cart_page.dart';
+import 'package:shopping_app/screens/like_page.dart';
 import 'package:shopping_app/screens/home_page.dart';
 import 'package:shopping_app/screens/profile_page.dart';
 import '../model/provider_model.dart';
@@ -41,7 +41,6 @@ class _SearchPage extends State<SearchPage>{
             Navigator.pop(context);
           }
         ),
-
         title: Column(
           children: [
             TextField(
@@ -89,7 +88,7 @@ class _SearchPage extends State<SearchPage>{
               });});
             }
             if(index == 2){
-              Navigator.push(context, MaterialPageRoute(builder: (context) => CartPage()));
+              Navigator.push(context, MaterialPageRoute(builder: (context) => LikePage()));
             }
             if(index == 3){
               Navigator.push(context, MaterialPageRoute(builder: (context) => ProfilePage()));

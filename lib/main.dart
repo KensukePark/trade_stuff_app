@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:provider/provider.dart';
+import 'package:shopping_app/model/like_model.dart';
 import 'package:shopping_app/screens/item_detail_page.dart';
 import 'firebase_options.dart';
 import '../model/provider_model.dart';
@@ -29,6 +30,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => FirebaseAuthProvider()),
         ChangeNotifierProvider(create: (_) => ItemProvider()),
         ChangeNotifierProvider(create: (_) => QueryProvider()),
+        ChangeNotifierProvider(create: (_) => LikeProvider()),
       ],
       child: MaterialApp(
         title: 'Flutter Shopping app',
@@ -36,16 +38,6 @@ class MyApp extends StatelessWidget {
           brightness: Brightness.dark,
           fontFamily: 'spoqa',
         ),
-        /*
-        routes: {
-          '/loading': (context) => LoadingPage(),
-          '/index': (context) => HomePage(),
-          '/login': (context) => LoginPage(),
-          '/register': (context) => RegisterPage(),
-          //'/detail': (context) => ItemDetailPage(),
-        },
-        initialRoute: '/loading',
-        */
         home: LoadingPage(),
       )
     );

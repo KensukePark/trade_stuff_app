@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
-import '../screens/cart_page.dart';
+import '../screens/like_page.dart';
 import '../screens/profile_page.dart';
 import '../screens/search_page.dart';
 import '../screens/item_detail_page.dart';
@@ -57,7 +57,7 @@ class _HomePage extends State<HomePage> {
               Navigator.push(context, MaterialPageRoute(builder: (context) => SearchPage()));
             }
             if(index == 2){
-              Navigator.push(context, MaterialPageRoute(builder: (context) => CartPage()));
+              Navigator.push(context, MaterialPageRoute(builder: (context) => LikePage()));
             }
             if(index == 3){
               Navigator.push(context, MaterialPageRoute(builder: (context) => ProfilePage()));
@@ -65,28 +65,6 @@ class _HomePage extends State<HomePage> {
           });
         },
       ),
-      /*
-      bottomNavigationBar: BottomNavigationBar(
-        type: BottomNavigationBarType.fixed,
-        iconSize: 36,
-        selectedItemColor: Colors.white,
-        unselectedItemColor: Colors.grey,
-        selectedLabelStyle: TextStyle(fontSize: 14),
-        currentIndex: _currentIndex,
-        onTap: (index) {
-          setState(() {
-            _currentIndex = index;
-          });
-        },
-        items: [
-          BottomNavigationBarItem(icon: Icon(_currentIndex == 0 ? Icons.home : Icons.home_outlined), label: 'Home'),
-          BottomNavigationBarItem(icon: Icon(_currentIndex == 1 ? Icons.saved_search : Icons.search_outlined), label: 'Search'),
-          BottomNavigationBarItem(icon: Icon(_currentIndex == 2 ? Icons.favorite : Icons.favorite_border), label: 'Favorite'),
-          BottomNavigationBarItem(icon: Icon(_currentIndex == 3 ? Icons.person : Icons.person_outlined), label: 'Profile'),
-        ],
-      ),
-
-       */
       body: SingleChildScrollView(
         child: FutureBuilder(
           future: itemProvider.fetch_Items(),
@@ -103,9 +81,7 @@ class _HomePage extends State<HomePage> {
               time = 1;
             }
             if (itemProvider.items.isEmpty) {
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
+              return const Center(child: Text('등록된 물건이 없습니다.'));
             } else {
               return ListView.separated(
                   padding: const EdgeInsets.all(15),
@@ -136,13 +112,6 @@ class _HomePage extends State<HomePage> {
                     }
                     return InkWell(
                       onTap: () {
-                        /*
-                      Navigator.pushNamed(
-                        context,
-                        '/detail',
-                        arguments: (itemProvider.items[index], register_print)
-                      );
-                       */
                         Navigator.push(
                             context,
                             MaterialPageRoute(builder: (context) => ItemDetailPage(

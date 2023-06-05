@@ -1,9 +1,11 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:shopping_app/screens/login_page.dart';
 import 'package:shopping_app/screens/home_page.dart';
+import '../model/like_model.dart';
 
 class LoadingPage extends StatefulWidget {
   @override
@@ -14,8 +16,11 @@ class LoadingPage extends StatefulWidget {
 
 class _LoadingPage extends State<LoadingPage> {
   Future<bool> checkLogin() async {
+    final like_provider = Provider.of<LikeProvider>(context, listen: false);
     SharedPreferences prefs = await SharedPreferences.getInstance();
     bool isLogin = prefs.getBool('isLogin') ?? false;
+    String uid = prefs.getString('uid') ?? '';
+    like_provider.fetchLikeItemsOrCreate(uid);
     return isLogin;
   }
 
