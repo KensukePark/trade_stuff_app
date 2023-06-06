@@ -16,25 +16,20 @@ class ItemDetailPage extends StatefulWidget {
 class ItemDetailPageState extends State<ItemDetailPage> {
   late String uid = '';
   late int like_temp = widget.item.like_count;
+  late int view_temp = widget.item.view_count + 1;
   Future<void> getUid() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     uid = prefs.getString('uid') ?? '';
   }
-  /*
-  void getCount() async {
-    final usercol = FirebaseFirestore.instance.collection("items").doc(widget.item.id);
-    await usercol.get().then((value) => {
-      return value['like_count'],
-    });
-  }
 
-   */
   NumberFormat format = NumberFormat('#,###');
   @override
   Widget build(BuildContext context) {
     final like_provider = Provider.of<LikeProvider>(context);
     final usercol = FirebaseFirestore.instance.collection("items").doc(widget.item.id);
-    //final realTime_count = getCount();
+    usercol.update({
+      "view_count": view_temp,
+    });
     getUid();
     return Scaffold(
       body: Column(
@@ -109,7 +104,7 @@ class ItemDetailPageState extends State<ItemDetailPage> {
                         ),
                         SizedBox(height: 20.0),
                         Text(
-                          '관심 ${like_temp}· 조회${widget.item.view_count}',
+                          '관심 ${like_temp}· 조회${view_temp}',
                           style: TextStyle(
                             fontSize: 16,
                             color: Colors.grey,

@@ -195,13 +195,13 @@ class _HomePage extends State<HomePage> {
                                       children: [
                                         Icon(
                                           Icons.favorite_border,
-                                          color: Colors.white,
+                                          color: Colors.grey,
                                           size: 24,
                                         ),
                                         Text(
                                           '${itemProvider.items[index].like_count}',
                                           style: TextStyle(
-                                            color: Colors.white,
+                                            color: Colors.grey,
                                             fontSize: 16,
                                           )
                                         )

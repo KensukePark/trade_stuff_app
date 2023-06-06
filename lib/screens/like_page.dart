@@ -122,14 +122,34 @@ class _LikePage extends State<LikePage> {
                   }
                   return InkWell(
                     onTap: () {
-                      Navigator.push(
+                      var detail = '';
+                      var img = '';
+                      var loc = '';
+                      var title = '';
+                      var user = '';
+                      var like_count = 0;
+                      var view_count = 0;
+                      var price = 0;
+                      final like_provider = Provider.of<LikeProvider>(context, listen: false);
+                      final usercol = FirebaseFirestore.instance.collection("items").doc(like_provider.like_list[index].id);
+                      //print(widget.id);
+                      usercol.get().then((value) => {
+                        Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => ItemDetailPage(
+                          MaterialPageRoute(builder: (context) => LikeItemDetailPage(
                               item: like_provider.like_list[index],
-                              //id: like_provider.like_list[index].id,
-                              register_date: register_print)
-                          )
-                      );
+                              detail: (value['detail']),
+                              img: (value['img']),
+                              loc: (value['loc']),
+                              title: (value['title']),
+                              user: (value['user']),
+                              like_count: (value['like_count']),
+                              view_count: (value['view_count']),
+                              price: (value['price']),
+                              id: like_provider.like_list[index].id,
+                              register_date: register_print))
+                        ),
+                      });
                     },
                     child: Column(
                       children: [
@@ -210,7 +230,7 @@ class _LikePage extends State<LikePage> {
                                           children: [
                                             Icon(
                                               Icons.favorite,
-                                              color: Colors.blue,
+                                              color: Colors.redAccent,
                                             ),
                                           ],
                                         ),
@@ -218,7 +238,24 @@ class _LikePage extends State<LikePage> {
                                     ],
                                   ),
                                   SizedBox(
-                                    height: MediaQuery.of(context).size.width * 0.30 - 40,
+                                    height: MediaQuery.of(context).size.width * 0.30 - 50,
+                                  ),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    children: [
+                                      Icon(
+                                        Icons.favorite_border,
+                                        color: Colors.grey,
+                                        size: 24,
+                                      ),
+                                      Text(
+                                          '${like_provider.like_list[index].like_count+1}',
+                                          style: TextStyle(
+                                            color: Colors.grey,
+                                            fontSize: 16,
+                                          )
+                                      )
+                                    ],
                                   ),
                                 ],
                               ),

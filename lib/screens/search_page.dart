@@ -202,6 +202,30 @@ class _SearchPage extends State<SearchPage>{
                               ],
                             ),
                           ),
+                          Expanded(
+                              child: Column(
+                                children: [
+                                  Container(height: MediaQuery.of(context).size.width * 0.3 - 24,),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    children: [
+                                      Icon(
+                                        Icons.favorite_border,
+                                        color: Colors.grey,
+                                        size: 24,
+                                      ),
+                                      Text(
+                                          '${item_provider.find_result[index].like_count}',
+                                          style: TextStyle(
+                                            color: Colors.grey,
+                                            fontSize: 16,
+                                          )
+                                      )
+                                    ],
+                                  ),
+                                ],
+                              )
+                          )
                         ],
                       ),
                       SizedBox(height: 5.0,),

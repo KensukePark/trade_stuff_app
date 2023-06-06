@@ -6,8 +6,27 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shopping_app/model/like_model.dart';
 
 class LikeItemDetailPage extends StatefulWidget {
-  const LikeItemDetailPage({Key? key, required this.item, required this.id, required this.register_date}) : super(key: key);
+  const LikeItemDetailPage({Key? key,
+    required this.item,
+    required this.detail,
+    required this.img,
+    required this.loc,
+    required this.title,
+    required this.user,
+    required this.like_count,
+    required this.view_count,
+    required this.price,
+    required this.id,
+    required this.register_date}) : super(key: key);
   final item;
+  final detail;
+  final img;
+  final loc;
+  final title;
+  final user;
+  final like_count;
+  final view_count;
+  final price;
   final id;
   final register_date;
   @override
@@ -16,35 +35,9 @@ class LikeItemDetailPage extends StatefulWidget {
 
 class LikeItemDetailPageState extends State<LikeItemDetailPage> {
   late String uid = '';
-  late int like_temp = 0;
-  var detail = ''; //a
-  var img = ''; //b
-  var loc = ''; //c
-  var registerDate = ''; //d
-  var title =''; //e
-  var user = ''; //f
-  var like_count = 0; //g
-  var view_count = 0; //h
-  var price = 0; //i
-  void read_data(String a, String b, String c,String d, String e, String f, int g, int h, int i) async {
-    final usercol = FirebaseFirestore.instance.collection('items').doc(widget.id);
-    FirebaseFirestore.instance.collection('items').doc(widget.id).get().then((value) => {
-      print(value.data()?['detail']),
-      a = value.data()?['detail'],
-      b = value.data()?['img'],
-      c = value.data()?['loc'],
-      d = value.data()?['registerDate'],
-      e = value.data()?['title'],
-      f = value.data()?['user'],
-      g = value.data()?['like_count'],
-      h = value.data()?['view_count'],
-      i = value.data()?['price'],
-    });
+  late int like_temp = widget.like_count;
+  late int view_temp = widget.view_count + 1;
 
-    print(a);
-    //print(b);
-    //print(c);
-  }
   Future<void> getUid() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     uid = prefs.getString('uid') ?? '';
@@ -53,24 +46,11 @@ class LikeItemDetailPageState extends State<LikeItemDetailPage> {
   @override
   Widget build(BuildContext context) {
     final like_provider = Provider.of<LikeProvider>(context);
+
     final usercol = FirebaseFirestore.instance.collection("items").doc(widget.id);
-    print(widget.id);
-    usercol.get().then((value) => {
-      //like_temp = (value['like_count']),
-      detail = (value['detail']),
-      img = (value['img']),
-      loc = (value['loc']),
-      registerDate = (value['registerDate']),
-      title = (value['title']),
-      user = (value['user']),
-      like_count = (value['like_count']),
-      view_count = (value['view_count']),
-      price = (value['price']),
+    usercol.update({
+      "view_count": view_temp,
     });
-    print(img);
-
-
-    //read_data(detail, img, loc, registerDate, title, user, like_count, view_count, price);
     getUid();
     return Scaffold(
       body: Column(
@@ -86,7 +66,7 @@ class LikeItemDetailPageState extends State<LikeItemDetailPage> {
                       Container(
                           width: MediaQuery.of(context).size.width,
                           height: MediaQuery.of(context).size.height * 0.4,
-                          child: Image.network(img, fit: BoxFit.fill)
+                          child: Image.network(widget.img, fit: BoxFit.fill)
                       ),
                       Positioned(
                         left: 10,
@@ -119,8 +99,8 @@ class LikeItemDetailPageState extends State<LikeItemDetailPage> {
                               mainAxisAlignment: MainAxisAlignment.start,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text(user),
-                                Text(loc)
+                                Text(widget.user),
+                                Text(widget.loc)
                               ],
                             )
                           ],
@@ -131,7 +111,7 @@ class LikeItemDetailPageState extends State<LikeItemDetailPage> {
                         ),
                         SizedBox(height: 10,),
                         Text(
-                          title,
+                          widget.title,
                           style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                         ),
                         Text(
@@ -140,12 +120,12 @@ class LikeItemDetailPageState extends State<LikeItemDetailPage> {
                         ),
                         SizedBox(height: 20.0),
                         Text(
-                          detail,
+                          widget.detail,
                           style: TextStyle(fontSize: 16),
                         ),
                         SizedBox(height: 20.0),
                         Text(
-                          '관심 ${like_count}· 조회${view_count}',
+                          '관심 ${like_temp}· 조회${view_temp}',
                           style: TextStyle(
                             fontSize: 16,
                             color: Colors.grey,
@@ -169,14 +149,13 @@ class LikeItemDetailPageState extends State<LikeItemDetailPage> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      format.format(price) + '원',
+                      format.format(widget.price) + '원',
                       style: TextStyle(fontSize: 16, color: Colors.white),
                     ),
-
                     like_provider.isItem(widget.item) ?
                     InkWell(
                       onTap: () {
-                        like_temp = widget.item.like_count - 1;
+                        like_temp--;
                         final usercol = FirebaseFirestore.instance.collection("items").doc(widget.item.id);
                         usercol.update({
                           "like_count": like_temp,
@@ -195,15 +174,12 @@ class LikeItemDetailPageState extends State<LikeItemDetailPage> {
                         :
                     InkWell(
                       onTap: () {
-                        like_temp = widget.item.like_count + 1;
+                        like_temp++;
+                        final usercol = FirebaseFirestore.instance.collection("items").doc(widget.item.id);
                         usercol.update({
                           "like_count": like_temp,
                         });
                         like_provider.addItem(uid, widget.item);
-                        final usercol_2 = FirebaseFirestore.instance.collection("like").doc(uid);
-                        usercol_2.update({
-                          "like_count": like_temp,
-                        });
                       },
                       child: Column(
                         children: [
@@ -213,7 +189,7 @@ class LikeItemDetailPageState extends State<LikeItemDetailPage> {
                           ),
                         ],
                       ),
-                    ),
+                    )
                   ],
                 ),
               ],
