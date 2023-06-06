@@ -11,6 +11,8 @@ import '../model/provider_model.dart';
 
 
 class HomePage extends StatefulWidget {
+  const HomePage({Key? key, required this.email}) : super(key: key);
+  final email;
   @override
   _HomePage createState() {
     return _HomePage();
@@ -55,13 +57,19 @@ class _HomePage extends State<HomePage> {
           setState(() {
             _currentIndex = index;
             if(index == 1){
-              Navigator.push(context, MaterialPageRoute(builder: (context) => SearchPage()));
+              Navigator.push(context, MaterialPageRoute(builder: (context) => SearchPage(
+                email: widget.email,
+              )));
             }
             if(index == 2){
-              Navigator.push(context, MaterialPageRoute(builder: (context) => LikePage()));
+              Navigator.push(context, MaterialPageRoute(builder: (context) => LikePage(
+                email: widget.email,
+              )));
             }
             if(index == 3){
-              Navigator.push(context, MaterialPageRoute(builder: (context) => ProfilePage()));
+              Navigator.push(context, MaterialPageRoute(builder: (context) => ProfilePage(
+                email: widget.email,
+              )));
             }
           });
         },

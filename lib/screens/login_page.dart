@@ -12,7 +12,9 @@ class LoginPage extends StatelessWidget {
     return ChangeNotifierProvider(
         create: (_) => LoginModel(),
         child: Scaffold(
-          appBar: AppBar(),
+          appBar: AppBar(
+            automaticallyImplyLeading: false,
+          ),
           body: Column(
             children: [
               EmailInput(),
@@ -74,8 +76,7 @@ class PasswordInput extends StatelessWidget {
 class LoginButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final authClient =
-    Provider.of<FirebaseAuthProvider>(context, listen: false);
+    final authClient = Provider.of<FirebaseAuthProvider>(context, listen: false);
     final login = Provider.of<LoginModel>(context, listen: false);
 
     return Container(
@@ -97,7 +98,9 @@ class LoginButton extends StatelessWidget {
                 ..showSnackBar(SnackBar(
                     content:
                     Text('welcome! ' + authClient.user!.email! + ' ')));
-              Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage()));
+              Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage(
+                email: authClient.user!.email!
+              )));
             } else {
               ScaffoldMessenger.of(context)
                 ..hideCurrentSnackBar()

@@ -9,6 +9,8 @@ import '../model/query_model.dart';
 import 'item_detail_page.dart';
 
 class SearchPage extends StatefulWidget {
+  const SearchPage({Key? key, required this.email}) : super(key: key);
+  final email;
   @override
   _SearchPage createState() {
     return _SearchPage();
@@ -81,17 +83,19 @@ class _SearchPage extends State<SearchPage>{
           setState(() {
             _currentIndex = index;
             if(index == 0){
-              Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage()));
-            }
-            if(index == 1){
-              Navigator.push(context, MaterialPageRoute(builder: (context) => SearchPage())).then((value) {setState(() {
-              });});
+              Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage(
+                email: widget.email,
+              )));
             }
             if(index == 2){
-              Navigator.push(context, MaterialPageRoute(builder: (context) => LikePage()));
+              Navigator.push(context, MaterialPageRoute(builder: (context) => LikePage(
+                email: widget.email,
+              )));
             }
             if(index == 3){
-              Navigator.push(context, MaterialPageRoute(builder: (context) => ProfilePage()));
+              Navigator.push(context, MaterialPageRoute(builder: (context) => ProfilePage(
+                email: widget.email,
+              )));
             }
           });
         },

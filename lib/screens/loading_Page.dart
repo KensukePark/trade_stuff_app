@@ -27,7 +27,7 @@ class _LoadingPage extends State<LoadingPage> {
   void moveScreen() async {
     await checkLogin().then((isLogin) {
       if (isLogin) {
-        Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage()));
+        Navigator.push(context, MaterialPageRoute(builder: (context) => LoginPage()));
       } else {
         Navigator.push(context, MaterialPageRoute(builder: (context) => LoginPage()));
       }

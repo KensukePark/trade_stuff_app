@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../model/auth_model.dart';
@@ -109,6 +110,9 @@ class RegistButton extends StatelessWidget {
                 ..showSnackBar(
                   SnackBar(content: Text('Regist Success')),
                 );
+              FirebaseFirestore.instance.collection(register.email).add({
+                "key":null//your data which will be added to the collection and collection will be created after this
+              });
               Navigator.pop(context);
             } else {
               ScaffoldMessenger.of(context)
