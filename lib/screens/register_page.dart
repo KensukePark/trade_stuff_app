@@ -11,13 +11,16 @@ class RegisterPage extends StatelessWidget {
       create: (_) => RegisterModel(),
       child: Scaffold(
         appBar: AppBar(),
-        body: Column(
-          children: [
-            EmailInput(),
-            PasswordInput(),
-            PasswordConfirmInput(),
-            RegistButton()
-          ],
+        body: Container(
+          padding: EdgeInsets.all(10),
+          child: Column(
+            children: [
+              EmailInput(),
+              PasswordInput(),
+              PasswordConfirmInput(),
+              RegistButton()
+            ],
+          ),
         ),
       ),
     );

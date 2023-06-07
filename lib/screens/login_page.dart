@@ -14,20 +14,24 @@ class LoginPage extends StatelessWidget {
         child: Scaffold(
           appBar: AppBar(
             automaticallyImplyLeading: false,
+            title: Text('로그인'),
           ),
-          body: Column(
-            children: [
-              EmailInput(),
-              PasswordInput(),
-              LoginButton(),
-              Padding(
-                padding: EdgeInsets.all(10),
-                child: Divider(
-                  thickness: 1,
+          body: Container(
+            padding: EdgeInsets.all(5),
+            child: Column(
+              children: [
+                EmailInput(),
+                PasswordInput(),
+                LoginButton(),
+                Padding(
+                  padding: EdgeInsets.all(10),
+                  child: Divider(
+                    thickness: 1,
+                  ),
                 ),
-              ),
-              RegisterButton(),
-            ],
+                RegisterButton(),
+              ],
+            ),
           ),
         ));
   }
