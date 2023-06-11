@@ -15,7 +15,7 @@ Dart 3.0.2 <br>
 <img src="shop_app_06.png" width="225" height="400"/></p>
 
 # update
-* 2023_06_04
+* 2023_06_04 <br>
 Firebase 연동 <br>
 로그인, 회원가입 기능 추가 <br>
 기본 UI 구현 <br>
