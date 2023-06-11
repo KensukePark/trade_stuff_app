@@ -6,7 +6,6 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shopping_app/model/like_model.dart';
 import 'package:shopping_app/screens/home_page.dart';
-import 'package:shopping_app/screens/item_detail_page.dart';
 import 'package:shopping_app/screens/like_item_detail_page.dart';
 import 'package:shopping_app/screens/profile_page.dart';
 import 'package:shopping_app/screens/search_page.dart';

@@ -36,13 +36,7 @@ class _SearchPage extends State<SearchPage>{
     final que_provider = Provider.of<QueryProvider>(context);
     return Scaffold(
       appBar: AppBar(
-        automaticallyImplyLeading: true,
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back_ios),
-          onPressed: () {
-            Navigator.pop(context);
-          }
-        ),
+        automaticallyImplyLeading: false,
         title: Column(
           children: [
             TextField(

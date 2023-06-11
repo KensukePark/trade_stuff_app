@@ -33,6 +33,9 @@ class FirebaseAuthProvider with ChangeNotifier {
             prefs.setString('email', email);
             prefs.setString('password', password);
             prefs.setString('uid', user!.uid);
+            print('여기');
+            print(user!.uid);
+            print('체크');
           }
       );
       return AuthStatus.loginSuccess;

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shopping_app/screens/home_page.dart';
 import 'package:shopping_app/screens/login_page.dart';
+import 'package:shopping_app/screens/my_item_page.dart';
 import 'package:shopping_app/screens/search_page.dart';
 import '../model/auth_model.dart';
 import 'like_page.dart';
@@ -101,18 +102,21 @@ class _ProfilePage extends State<ProfilePage>{
                 Container(
                   padding: EdgeInsets.all(20),
                   child: InkWell(
-                    onTap: () {},
+                    onTap: () {
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => MyItemPage()));
+                    },
                     child: Row(
                       children: [
                         Icon(
                           Icons.list_alt,
-                          size: 28,
+                          size: 24,
                         ),
-                        SizedBox(width: 5.0),
+                        SizedBox(width: 10.0),
                         Text(
                           '판매 내역',
                           style: TextStyle(
-                            fontSize: 24,
+                            fontSize: 26,
+                            fontFamily: 'spoqa'
                           )
                         )
                       ],

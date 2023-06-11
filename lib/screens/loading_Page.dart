@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:shopping_app/screens/login_page.dart';
 import 'package:shopping_app/screens/home_page.dart';
+import 'package:shopping_app/screens/login_page.dart';
 import '../model/like_model.dart';
 
 class LoadingPage extends StatefulWidget {
@@ -25,9 +25,10 @@ class _LoadingPage extends State<LoadingPage> {
   }
 
   void moveScreen() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
     await checkLogin().then((isLogin) {
       if (isLogin) {
-        Navigator.push(context, MaterialPageRoute(builder: (context) => LoginPage()));
+        Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage(email: prefs.getString('email'))));
       } else {
         Navigator.push(context, MaterialPageRoute(builder: (context) => LoginPage()));
       }

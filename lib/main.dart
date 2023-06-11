@@ -2,15 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:provider/provider.dart';
 import 'package:shopping_app/model/like_model.dart';
-import 'package:shopping_app/screens/item_detail_page.dart';
+import 'package:shopping_app/model/my_provider_model.dart';
 import 'firebase_options.dart';
 import '../model/provider_model.dart';
 import '../model/auth_model.dart';
 import '../model/query_model.dart';
-import '../screens/login_page.dart';
 import '../screens/loading_Page.dart';
-import '../screens/register_page.dart';
-import '../screens/home_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -31,6 +28,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => ItemProvider()),
         ChangeNotifierProvider(create: (_) => QueryProvider()),
         ChangeNotifierProvider(create: (_) => LikeProvider()),
+        ChangeNotifierProvider(create: (_) => MyItemProvider()),
       ],
       child: MaterialApp(
         title: 'Flutter Shopping app',
