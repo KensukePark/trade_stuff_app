@@ -6,9 +6,10 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shopping_app/model/like_model.dart';
 
 class ItemDetailPage extends StatefulWidget {
-  const ItemDetailPage({Key? key, required this.item, required this.register_date}) : super(key: key);
+  const ItemDetailPage({Key? key, required this.item, required this.register_date, required this.email}) : super(key: key);
   final item;
   final register_date;
+  final email;
   @override
   ItemDetailPageState createState() => ItemDetailPageState();
 }
@@ -22,15 +23,20 @@ class ItemDetailPageState extends State<ItemDetailPage> {
     uid = prefs.getString('uid') ?? '';
   }
 
+
   NumberFormat format = NumberFormat('#,###');
   @override
   Widget build(BuildContext context) {
     final like_provider = Provider.of<LikeProvider>(context);
     final usercol = FirebaseFirestore.instance.collection("items").doc(widget.item.id);
-    usercol.update({
-      "view_count": view_temp,
-    });
+    if (widget.item.user != (widget.email).substring(0, (widget.email).indexOf('@'))) {
+      usercol.update({
+        "view_count": view_temp,
+      });
+    }
     getUid();
+    print(widget.item.idx);
+    print(uid);
     return Scaffold(
       body: Column(
         children: [
@@ -131,8 +137,7 @@ class ItemDetailPageState extends State<ItemDetailPage> {
                       format.format(widget.item.price) + '원',
                       style: TextStyle(fontSize: 16, color: Colors.white),
                     ),
-
-                    like_provider.isItem(widget.item) ?
+                    widget.item.user != (widget.email).substring(0, (widget.email).indexOf('@')) ? (like_provider.isItem(widget.item) ?
                     InkWell(
                       onTap: () {
                         like_temp--;
@@ -173,7 +178,13 @@ class ItemDetailPageState extends State<ItemDetailPage> {
                           ),
                         ],
                       ),
-                    ),
+                    )
+                    ) :
+                    Column(
+                      children: [
+                        Text('hello'),
+                      ],
+                    )
                   ],
                 ),
               ],

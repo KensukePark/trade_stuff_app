@@ -127,15 +127,18 @@ class _HomePage extends State<HomePage> {
                         usercol.get().then((value) => {
                           view_temp = (value.data()?['view_count'])
                         });
-                        view_temp++;
-                        usercol.update({
-                          "view_count": view_temp,
-                        });
+                        if (itemProvider.items[index].user != (widget.email).substring(0, (widget.email).indexOf('@'))) {
+                          view_temp++;
+                          usercol.update({
+                            "view_count": view_temp,
+                          });
+                        }
                         Navigator.push(
                             context,
                             MaterialPageRoute(builder: (context) => ItemDetailPage(
                                 item: itemProvider.items[index],
-                                register_date: register_print)
+                                register_date: register_print,
+                                email: widget.email,)
                             )
                         );
                       },

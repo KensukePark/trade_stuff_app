@@ -2,8 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shopping_app/screens/home_page.dart';
+import 'package:shopping_app/screens/loading_provider.dart';
 import 'package:shopping_app/screens/login_page.dart';
-import 'package:shopping_app/screens/my_item_page.dart';
 import 'package:shopping_app/screens/search_page.dart';
 import '../model/auth_model.dart';
 import 'like_page.dart';
@@ -103,7 +103,7 @@ class _ProfilePage extends State<ProfilePage>{
                   padding: EdgeInsets.all(20),
                   child: InkWell(
                     onTap: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => MyItemPage()));
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => LoadingProvider(email: widget.email,)));
                     },
                     child: Row(
                       children: [

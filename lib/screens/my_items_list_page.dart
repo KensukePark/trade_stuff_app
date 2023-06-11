@@ -1,20 +1,21 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:provider/provider.dart';
-import 'package:shopping_app/model/my_provider_model.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:shopping_app/screens/profile_page.dart';
 import 'item_detail_page.dart';
 
-class MyItemPage extends StatefulWidget {
-  const MyItemPage({Key? key}) : super(key: key);
-
+class MyItemsPage extends StatefulWidget {
+  const MyItemsPage({Key? key, required this.myItem, required this.email}) : super(key: key);
+  final myItem;
+  final email;
   @override
-  _MyItemPageState createState() {
-    return _MyItemPageState();
+  _MyItemsPageState createState() {
+    return _MyItemsPageState();
   }
 }
 
-class _MyItemPageState extends State<MyItemPage> {
+class _MyItemsPageState extends State<MyItemsPage> {
   int time = 0;
   var temp = '';
   var date_now;
@@ -25,17 +26,30 @@ class _MyItemPageState extends State<MyItemPage> {
   late int hour_now;
   var register_print;
   late int view_temp;
+  String uid = '';
+  Future<void> getUid() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    uid = prefs.getString('uid') ?? '';
+  }
   NumberFormat format = NumberFormat('#,###');
   @override
   Widget build(BuildContext context) {
-    final myitemProvider = Provider.of<MyItemProvider>(context);
+    getUid();
     return Scaffold(
       appBar: AppBar(
         title: Text('내 물건'),
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.push(context, MaterialPageRoute(builder: (context) => ProfilePage(
+              email: widget.email,
+            )));
+          },
+        ),
       ),
       body: SingleChildScrollView(
         child: FutureBuilder(
-          future: myitemProvider.fetch_MyItems(),
+          future: widget.myItem.fetch_MyItems(),
           builder: (context, snapshots) {
             if (time == 0) {
               DateTime dt = DateTime.now();
@@ -48,7 +62,7 @@ class _MyItemPageState extends State<MyItemPage> {
               hour_now = int.parse(temp.substring(11,13));
               time = 1;
             }
-            if (myitemProvider.items.isEmpty) {
+            if (widget.myItem.items.isEmpty) {
               return const Center(child: Text('등록된 물건이 없습니다.'));
             } else {
               return ListView.separated(
@@ -56,13 +70,13 @@ class _MyItemPageState extends State<MyItemPage> {
                   physics: const NeverScrollableScrollPhysics(),
                   separatorBuilder: (BuildContext context, int index) => const Divider(),
                   shrinkWrap: true,
-                  itemCount: myitemProvider.items.length,
+                  itemCount: widget.myItem.items.length,
                   itemBuilder: (context, index) {
-                    view_temp = myitemProvider.items[index].view_count;
-                    if ((myitemProvider.items[index].registerDate).substring(0,10) != date_now) {
-                      var register_year = int.parse((myitemProvider.items[index].registerDate).substring(0,4));
-                      var register_mon = int.parse((myitemProvider.items[index].registerDate).substring(5,7));
-                      var register_day = int.parse((myitemProvider.items[index].registerDate).substring(8,10));
+                    view_temp = widget.myItem.items[index].view_count;
+                    if ((widget.myItem.items[index].registerDate).substring(0,10) != date_now) {
+                      var register_year = int.parse((widget.myItem.items[index].registerDate).substring(0,4));
+                      var register_mon = int.parse((widget.myItem.items[index].registerDate).substring(5,7));
+                      var register_day = int.parse((widget.myItem.items[index].registerDate).substring(8,10));
                       if (register_year == year_now) {
                         if (register_mon == mon_now) {
                           register_print = (day_now - register_day).toString() + '일 전';
@@ -76,23 +90,16 @@ class _MyItemPageState extends State<MyItemPage> {
                       }
                     }
                     else {
-                      register_print = (hour_now - int.parse(myitemProvider.items[index].registerDate.substring(11,13))).toString() + '시간 전';
+                      register_print = (hour_now - int.parse(widget.myItem.items[index].registerDate.substring(11,13))).toString() + '시간 전';
                     }
                     return InkWell(
                       onTap: () {
-                        final usercol = FirebaseFirestore.instance.collection("items").doc(myitemProvider.items[index].id);
-                        usercol.get().then((value) => {
-                          view_temp = (value.data()?['view_count'])
-                        });
-                        view_temp++;
-                        usercol.update({
-                          "view_count": view_temp,
-                        });
                         Navigator.push(
                             context,
                             MaterialPageRoute(builder: (context) => ItemDetailPage(
-                                item: myitemProvider.items[index],
-                                register_date: register_print)
+                                item: widget.myItem.items[index],
+                                register_date: register_print,
+                                email: widget.email,)
                             )
                         );
                       },
@@ -107,7 +114,7 @@ class _MyItemPageState extends State<MyItemPage> {
                                   width: MediaQuery.of(context).size.width * 0.30,
                                   height: MediaQuery.of(context).size.width * 0.30,
                                   child: Image.network(
-                                    myitemProvider.items[index].img,
+                                    widget.myItem.items[index].img,
                                     fit: BoxFit.fill,
                                   ),
                                 ),
@@ -123,7 +130,7 @@ class _MyItemPageState extends State<MyItemPage> {
                                   children: [
                                     SizedBox(height: 5.0,),
                                     Text(
-                                      myitemProvider.items[index].title,
+                                      widget.myItem.items[index].title,
                                       style: TextStyle(
                                         fontSize: 15,
                                         fontWeight: FontWeight.bold,
@@ -132,7 +139,7 @@ class _MyItemPageState extends State<MyItemPage> {
                                     ),
                                     SizedBox(height: 3.0,),
                                     Text(
-                                      myitemProvider.items[index].loc + ' ' + register_print,
+                                      widget.myItem.items[index].loc + ' ' + register_print,
                                       style: TextStyle(
                                         fontSize: 15,
                                         fontWeight: FontWeight.bold,
@@ -141,7 +148,7 @@ class _MyItemPageState extends State<MyItemPage> {
                                     ),
                                     SizedBox(height: 3.0,),
                                     Text(
-                                      format.format(myitemProvider.items[index].price) + '원',
+                                      format.format(widget.myItem.items[index].price) + '원',
                                       style: TextStyle(
                                         fontSize: 15,
                                         fontWeight: FontWeight.bold,
@@ -164,7 +171,7 @@ class _MyItemPageState extends State<MyItemPage> {
                                             size: 24,
                                           ),
                                           Text(
-                                              '${myitemProvider.items[index].like_count}',
+                                              '${widget.myItem.items[index].like_count}',
                                               style: TextStyle(
                                                 color: Colors.grey,
                                                 fontSize: 16,

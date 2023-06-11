@@ -32,6 +32,7 @@ class MyApp extends StatelessWidget {
       ],
       child: MaterialApp(
         title: 'Flutter Shopping app',
+        debugShowCheckedModeBanner: false,
         theme: ThemeData(
           brightness: Brightness.dark,
           fontFamily: 'spoqa',
