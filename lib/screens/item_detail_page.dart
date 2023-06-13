@@ -137,7 +137,7 @@ class ItemDetailPageState extends State<ItemDetailPage> {
                       format.format(widget.item.price) + '원',
                       style: TextStyle(fontSize: 16, color: Colors.white),
                     ),
-                    widget.item.user != (widget.email).substring(0, (widget.email).indexOf('@')) ? (like_provider.isItem(widget.item) ?
+                    like_provider.isItem(widget.item) ?
                     InkWell(
                       onTap: () {
                         like_temp--;
@@ -159,16 +159,38 @@ class ItemDetailPageState extends State<ItemDetailPage> {
                     :
                     InkWell(
                       onTap: () {
-                        like_temp++;
-                        usercol.update({
-                          "like_count": like_temp,
-                        });
-                        like_provider.addItem(uid, widget.item);
-                        final usercol_2 = FirebaseFirestore.instance.collection("likes").doc(uid);
-                        usercol_2.update({
-                          "like_count": like_temp,
-                        });
-                        print('여기' + '${like_temp}');
+                        if (widget.item.user == (widget.email).substring(0, (widget.email).indexOf('@'))) {
+                          showDialog(context: context, builder: (context) {
+                            return AlertDialog(
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              title: Text('실패'),
+                              content: Text('자신의 게시물은 관심목록에 추가할 수 없습니다.'),
+                              actions: <Widget>[
+                                TextButton(
+                                  child: new Text("확인"),
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                  },
+                                ),
+                              ],
+
+                            );
+                          });
+                        }
+                        else {
+                          like_temp++;
+                          usercol.update({
+                            "like_count": like_temp,
+                          });
+                          like_provider.addItem(uid, widget.item);
+                          final usercol_2 = FirebaseFirestore.instance.collection("likes").doc(uid);
+                          usercol_2.update({
+                            "like_count": like_temp,
+                          });
+                          print('여기' + '${like_temp}');
+                        }
                       },
                       child: Column(
                         children: [
@@ -179,12 +201,7 @@ class ItemDetailPageState extends State<ItemDetailPage> {
                         ],
                       ),
                     )
-                    ) :
-                    Column(
-                      children: [
-                        Text('hello'),
-                      ],
-                    )
+
                   ],
                 ),
               ],

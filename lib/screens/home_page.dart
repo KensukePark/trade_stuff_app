@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../screens/like_page.dart';
 import '../screens/profile_page.dart';
 import '../screens/search_page.dart';
@@ -31,10 +32,16 @@ class _HomePage extends State<HomePage> {
   late int hour_now;
   var register_print;
   late int view_temp;
+  late String uid = '';
+  Future<void> getUid() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    uid = prefs.getString('uid') ?? '';
+  }
   NumberFormat format = NumberFormat('#,###');
   @override
   Widget build(BuildContext context) {
     final itemProvider = Provider.of<ItemProvider>(context);
+    getUid();
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -234,7 +241,11 @@ class _HomePage extends State<HomePage> {
         ),
       ),
       floatingActionButton: FloatingActionButton.extended(
-        onPressed: () {      },
+        onPressed: () {
+          Navigator.push(context, MaterialPageRoute(builder: (context) => SearchPage(
+            email: widget.email,
+          )));
+        },
         label: const Text(
             '글쓰기',
             style: TextStyle(
