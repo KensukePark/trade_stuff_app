@@ -9,6 +9,7 @@ import '../screens/profile_page.dart';
 import '../screens/search_page.dart';
 import '../screens/item_detail_page.dart';
 import '../model/provider_model.dart';
+import 'add_item_page.dart';
 
 
 class HomePage extends StatefulWidget {
@@ -242,8 +243,8 @@ class _HomePage extends State<HomePage> {
       ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () {
-          Navigator.push(context, MaterialPageRoute(builder: (context) => SearchPage(
-            email: widget.email,
+          Navigator.push(context, MaterialPageRoute(builder: (context) => AddItemPage(
+            email: widget.email, uid: uid,
           )));
         },
         label: const Text(
