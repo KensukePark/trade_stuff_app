@@ -19,6 +19,13 @@ class AddItemPage extends StatefulWidget {
 }
 
 class _AddItemPageState extends State<AddItemPage> {
+  List<String> dropList = [
+    '디지털기기', '생활가전', '가구/인테리어', '생활/주방',
+    '유아동', '유아도서', '여성의류', '여성잡화',
+    '남성패션', '남성잡화', '뷰티/미용', '스포츠/레저',
+    '취미/게임/음반', '도서', '티켓/교환권', '가공식품',
+    '반려동물용품', '식물', '기타'];
+  String selectedValue = '디지털기기';
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -62,26 +69,45 @@ class _AddItemPageState extends State<AddItemPage> {
                 hintText: '제목',
                 enabledBorder: InputBorder.none,
               ),
-            ),
-            SizedBox(
-              height: 5,
-            ),
-            const Divider(thickness: 2,),
-            TextField(
-              decoration: InputDecoration(
-                hintText: '분류',
-                enabledBorder: InputBorder.none,
+              style: TextStyle(
+                fontSize: 16.0,
               ),
             ),
             SizedBox(
               height: 5,
             ),
             const Divider(thickness: 2,),
-            TextField(
-              decoration: InputDecoration(
-                hintText: '￦ 가격',
-                enabledBorder: InputBorder.none,
-              ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                SizedBox(
+                  width: MediaQuery.of(context).size.width *0.5 - 20,
+                  child: TextField(
+                    decoration: InputDecoration(
+                      hintText: '￦ 가격',
+                      enabledBorder: InputBorder.none,
+                    ),
+                    style: TextStyle(
+                      fontSize: 16.0,
+                    ),
+                    keyboardType: TextInputType.number
+                  ),
+                ),
+                DropdownButton(
+                    value: selectedValue,
+                    items: dropList.map((String item) {
+                      return DropdownMenuItem<String>(
+                        child: Text('$item'),
+                        value: item,
+                      );
+                    }).toList(),
+                    onChanged: (dynamic value) {
+                      setState(() {
+                        selectedValue = value;
+                      });
+                    }
+                ),
+              ],
             ),
             SizedBox(
               height: 5,
@@ -95,6 +121,9 @@ class _AddItemPageState extends State<AddItemPage> {
               keyboardType: TextInputType.multiline,
               minLines: 10,
               maxLines: null,
+              style: TextStyle(
+                fontSize: 16.0,
+              ),
             ),
           ],
         ),
