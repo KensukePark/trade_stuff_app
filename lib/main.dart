@@ -8,6 +8,7 @@ import '../model/provider_model.dart';
 import '../model/auth_model.dart';
 import '../model/query_model.dart';
 import '../screens/loading_Page.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -20,8 +21,16 @@ void main() async {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
   @override
-  Widget build(BuildContext context) {
+  void permission() async {
 
+    Map<Permission, PermissionStatus> statuses = await [
+      Permission.location,
+      Permission.storage,
+    ].request();
+    print(statuses[Permission.location]);
+  }
+  Widget build(BuildContext context) {
+    permission();
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => FirebaseAuthProvider()),

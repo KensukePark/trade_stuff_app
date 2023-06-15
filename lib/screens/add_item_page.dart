@@ -1,14 +1,7 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
-import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import '../screens/like_page.dart';
-import '../screens/profile_page.dart';
-import '../screens/search_page.dart';
-import '../screens/item_detail_page.dart';
-import '../model/provider_model.dart';
+import 'package:image_picker/image_picker.dart';
 
 class AddItemPage extends StatefulWidget {
   const AddItemPage({Key? key, required this.email, required this.uid}) : super(key: key);
@@ -26,8 +19,21 @@ class _AddItemPageState extends State<AddItemPage> {
     '취미/게임/음반', '도서', '티켓/교환권', '가공식품',
     '반려동물용품', '식물', '기타'];
   String selectedValue = '디지털기기';
+  XFile? _imageFile;
+  final ImagePicker _picker = ImagePicker();
+  bool _isCheck = false;
+  Future getImage(ImageSource source) async {
+    final getFile = await _picker.pickImage(source: source);
+    if (getFile != null) {
+      setState(() {
+        _imageFile = XFile(getFile.path);
+        _isCheck = true;
+      });
+    }
+  }
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       appBar: AppBar(
         title: Text('판매글 등록'),
@@ -49,32 +55,32 @@ class _AddItemPageState extends State<AddItemPage> {
         child: Column(
           children: [
             SizedBox(
-              width: MediaQuery.of(context).size.width - 20,
               height: MediaQuery.of(context).size.height * 0.15,
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(20),
-                child: Stack(
-                  children: <Widget>[
-                    CircleAvatar(
-                      radius: 80,
-
+              child: Row(
+                children: [
+                  Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(15),
+                      color: Colors.grey,
+                      image: DecorationImage(
+                        fit: BoxFit.fill,
+                        image: _isCheck == true ? Image.file(File(_imageFile!.path)) as ImageProvider : AssetImage('images/empty_img.png') as ImageProvider,
+                      )
                     ),
-                    Positioned(
-                      bottom: 20,
-                      left: 80,
-                      child: InkWell(
-                        onTap: () {
-
+                    width: MediaQuery.of(context).size.height * 0.15,
+                    height: MediaQuery.of(context).size.height * 0.15,
+                    child: InkWell(
+                      onTap: () {
+                        getImage(ImageSource.gallery);
                         },
                         child: Icon(
                           Icons.camera_alt,
                           color: Colors.white,
                           size: 40,
                         )
-                      ),
                     ),
-                  ],
-                )
+                  ),
+                ],
               ),
             ),
             SizedBox(
@@ -148,3 +154,4 @@ class _AddItemPageState extends State<AddItemPage> {
     );
   }
 }
+
