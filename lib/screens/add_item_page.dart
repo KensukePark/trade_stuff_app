@@ -56,21 +56,22 @@ class _AddItemPageState extends State<AddItemPage> {
                 child: Stack(
                   children: <Widget>[
                     CircleAvatar(
+                      radius: 80,
 
                     ),
                     Positioned(
                       bottom: 20,
-                        right: 20,
-                        child: InkWell(
-                          onTap: () {
+                      left: 80,
+                      child: InkWell(
+                        onTap: () {
 
-                          },
-                          child: Icon(
-                            Icons.camera_alt,
-                            color: Colors.white,
-                            size: 40,
-                          )
-                        ),
+                        },
+                        child: Icon(
+                          Icons.camera_alt,
+                          color: Colors.white,
+                          size: 40,
+                        )
+                      ),
                     ),
                   ],
                 )
