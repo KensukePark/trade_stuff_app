@@ -53,11 +53,27 @@ class _AddItemPageState extends State<AddItemPage> {
               height: MediaQuery.of(context).size.height * 0.15,
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(20),
-                child: Container(
-                  width: 250,
-                  height: 250,
-                  color: Colors.redAccent.withOpacity(0.4),
-                ),
+                child: Stack(
+                  children: <Widget>[
+                    CircleAvatar(
+
+                    ),
+                    Positioned(
+                      bottom: 20,
+                        right: 20,
+                        child: InkWell(
+                          onTap: () {
+
+                          },
+                          child: Icon(
+                            Icons.camera_alt,
+                            color: Colors.white,
+                            size: 40,
+                          )
+                        ),
+                    ),
+                  ],
+                )
               ),
             ),
             SizedBox(
