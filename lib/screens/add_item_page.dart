@@ -1,4 +1,6 @@
 import 'dart:io';
+import 'dart:typed_data';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -19,27 +21,34 @@ class _AddItemPageState extends State<AddItemPage> {
     '취미/게임/음반', '도서', '티켓/교환권', '가공식품',
     '반려동물용품', '식물', '기타'];
   String selectedValue = '디지털기기';
-  XFile? _imageFile;
-  final ImagePicker _picker = ImagePicker();
+  XFile? _pick;
+  ImagePicker _picker = ImagePicker();
   bool _isCheck = false;
+  int _imageNum = 0;
   Future getImage(ImageSource source) async {
-    final getFile = await _picker.pickImage(source: source);
-    if (getFile != null) {
+    _pick = await _picker.pickImage(source: source);
+  }
+  Future uploadImage() async {
+    if (_pick != null) {
+      Uint8List _bytes = await _pick!.readAsBytes();
+      FirebaseStorage.instance.ref('test2').putData(_bytes, SettableMetadata(contentType: 'image/jpeg',));
       setState(() {
-        _imageFile = XFile(getFile.path);
         _isCheck = true;
       });
     }
   }
+
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       appBar: AppBar(
         title: Text('판매글 등록'),
         actions: [
           TextButton(
-            onPressed: () {  },
+            onPressed: () {
+              uploadImage();
+              Navigator.pop(context);
+            },
             child: Text(
               '등록',
               style: TextStyle(
@@ -64,7 +73,8 @@ class _AddItemPageState extends State<AddItemPage> {
                       color: Colors.grey,
                       image: DecorationImage(
                         fit: BoxFit.fill,
-                        image: _isCheck == true ? Image.file(File(_imageFile!.path)) as ImageProvider : AssetImage('images/empty_img.png') as ImageProvider,
+                        image: AssetImage('images/empty_img.png') as ImageProvider,
+                        //image: _isCheck == true ? Image.file(File(_imageFile!.path)) as ImageProvider : AssetImage('images/empty_img.png') as ImageProvider,
                       )
                     ),
                     width: MediaQuery.of(context).size.height * 0.15,
