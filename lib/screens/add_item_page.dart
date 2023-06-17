@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'dart:typed_data';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -47,6 +48,13 @@ class _AddItemPageState extends State<AddItemPage> {
           TextButton(
             onPressed: () {
               uploadImage();
+              FirebaseFirestore firestore = FirebaseFirestore.instance;
+              firestore.collection(widget.uid).add(
+                {
+                  'id': 123,
+                  'text': 'sample'
+                }
+              );
               Navigator.pop(context);
             },
             child: Text(
