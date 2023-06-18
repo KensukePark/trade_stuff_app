@@ -1,9 +1,11 @@
 import 'dart:io';
+import 'dart:math';
 import 'dart:typed_data';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 
 class AddItemPage extends StatefulWidget {
@@ -26,6 +28,18 @@ class _AddItemPageState extends State<AddItemPage> {
   ImagePicker _picker = ImagePicker();
   bool _isCheck = false;
   int _imageNum = 0;
+  DateTime dt = DateTime.now();
+  late String user = widget.email.substring(0, widget.email.indexOf('@'));
+  late String title;
+  late String registerDate;
+  late String detail;
+  late String img;
+  late String loc = '부평구 산곡동';
+  late String idx = widget.uid;
+  late String id = '';
+  late int price;
+  late int view_count;
+  late int like_count;
   Future getImage(ImageSource source) async {
     _pick = await _picker.pickImage(source: source);
   }
@@ -38,9 +52,35 @@ class _AddItemPageState extends State<AddItemPage> {
       });
     }
   }
-
+  getRandom() {
+    var _random = Random();
+    //무조건 들어갈 문자종류(문자,숫자,특수기호)의 위치를 기억할 리스트
+    var leastCharacterIndex = [];
+    var skipCharacter = [0x3A, 0x3B, 0x3C, 0x3D, 0x3E, 0x3F, 0x40, 0x5B, 0x5C, 0x5D, 0x5E, 0x5F, 0x60]; // 특수문자들 제거
+    var min = 0x30; //start ascii  사용할 아스키 문자의 시작
+    var max = 0x7A; //end ascii    사용할 아스키 문자의 끝
+    var dat = []; //비밀번호 저장용 리스트
+    while (dat.length <= 32) {
+      var tmp = min + _random.nextInt(max - min);
+      if (skipCharacter.contains(tmp)) {
+        //print('skip ascii code $tmp.');
+        continue;
+      }
+      //dat 리스트에 추가
+      dat.add(tmp);
+    }
+    while(leastCharacterIndex.length < 3) {
+      var ran = _random.nextInt(32);
+      if(!leastCharacterIndex.contains(ran)) {
+        leastCharacterIndex.add(ran);
+      }
+    }
+    return String.fromCharCodes(dat.cast<int>());
+  }
   @override
   Widget build(BuildContext context) {
+    registerDate = (dt.toString()).substring(0,19);
+    id = getRandom();
     return Scaffold(
       appBar: AppBar(
         title: Text('판매글 등록'),
@@ -49,10 +89,32 @@ class _AddItemPageState extends State<AddItemPage> {
             onPressed: () {
               uploadImage();
               FirebaseFirestore firestore = FirebaseFirestore.instance;
-              firestore.collection(widget.uid).add(
-                {
-                  'id': 123,
-                  'text': 'sample'
+              firestore.collection(widget.uid).add({
+                'detail': detail,
+                'idx': idx,
+                'img': 'null',
+                'like_count': 0,
+                'loc': loc,
+                'price': price,
+                'registerDate': registerDate,
+                'title': title,
+                'user': user,
+                'view_count': 0,
+                'id': id,
+                }
+              );
+              firestore.collection('items').add({
+                'detail': detail,
+                'idx': idx,
+                'img': 'null',
+                'like_count': 0,
+                'loc': loc,
+                'price': price,
+                'registerDate': registerDate,
+                'title': title,
+                'user': user,
+                'view_count': 0,
+                'id': id,
                 }
               );
               Navigator.pop(context);
@@ -113,6 +175,7 @@ class _AddItemPageState extends State<AddItemPage> {
               style: TextStyle(
                 fontSize: 16.0,
               ),
+              onChanged: (value) => title = value,
             ),
             SizedBox(
               height: 5,
@@ -131,7 +194,11 @@ class _AddItemPageState extends State<AddItemPage> {
                     style: TextStyle(
                       fontSize: 16.0,
                     ),
-                    keyboardType: TextInputType.number
+                    inputFormatters: <TextInputFormatter>[FilteringTextInputFormatter.digitsOnly],
+                    onChanged: (price_input) {
+                      price = int.parse(price_input);
+                    },
+                    keyboardType: TextInputType.number,
                   ),
                 ),
                 DropdownButton(
@@ -165,6 +232,7 @@ class _AddItemPageState extends State<AddItemPage> {
               style: TextStyle(
                 fontSize: 16.0,
               ),
+              onChanged: (detail_value) => detail = detail_value,
             ),
           ],
         ),

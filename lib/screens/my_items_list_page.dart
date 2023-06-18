@@ -113,10 +113,14 @@ class _MyItemsPageState extends State<MyItemsPage> {
                                 child: Container(
                                   width: MediaQuery.of(context).size.width * 0.30,
                                   height: MediaQuery.of(context).size.width * 0.30,
-                                  child: Image.network(
-                                    widget.myItem.items[index].img,
-                                    fit: BoxFit.fill,
-                                  ),
+                                  child: widget.myItem.items[index].img == 'null' ?
+                                    Image(
+                                      image: AssetImage('images/no_img.jpg'),
+                                    ) :
+                                    Image.network(
+                                      widget.myItem.items[index].img,
+                                      fit: BoxFit.fill,
+                                    ),
                                 ),
                               ),
                               const SizedBox(

@@ -22,8 +22,6 @@ class ItemDetailPageState extends State<ItemDetailPage> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     uid = prefs.getString('uid') ?? '';
   }
-
-
   NumberFormat format = NumberFormat('#,###');
   @override
   Widget build(BuildContext context) {
@@ -51,7 +49,11 @@ class ItemDetailPageState extends State<ItemDetailPage> {
                       Container(
                         width: MediaQuery.of(context).size.width,
                         height: MediaQuery.of(context).size.height * 0.4,
-                        child: Image.network(widget.item.img, fit: BoxFit.fill)
+                        child: widget.item.img == 'null' ?
+                        Image.asset(
+                          'images/no_img.jpg', fit: BoxFit.fill
+                        ) :
+                        Image.network(widget.item.img, fit: BoxFit.fill)
                       ),
                       Positioned(
                         left: 10,
@@ -189,7 +191,21 @@ class ItemDetailPageState extends State<ItemDetailPage> {
                           usercol_2.update({
                             "like_count": like_temp,
                           });
-                          print('여기' + '${like_temp}');
+                          final usercol_3 = FirebaseFirestore.instance.collection(widget.item.idx).where('id', isEqualTo: widget.item.id);
+                          usercol_3.limit(1).get().then((value) {
+                            value.docs[0].reference.update({
+                              "like_count": like_temp,
+                            });
+                            print('update complete');
+                          });
+                          /*
+                          .limit(1).get().then((QuerySnapshot val) {
+                            val.docs[0].reference.update({
+                              "like_count": like_temp,
+                            });
+                          });
+                           */
+                            print('여기' + '${like_temp}');
                         }
                       },
                       child: Column(

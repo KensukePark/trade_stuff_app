@@ -168,7 +168,11 @@ class _LikePage extends State<LikePage> {
                               child: Container(
                                 width: MediaQuery.of(context).size.width * 0.30,
                                 height: MediaQuery.of(context).size.width * 0.30,
-                                child: Image.network(
+                                child: like_provider.like_list[index].img == 'null' ?
+                                Image(
+                                  image: AssetImage('images/no_img.jpg'),
+                                ) :
+                                Image.network(
                                   like_provider.like_list[index].img,
                                   fit: BoxFit.fill,
                                 ),

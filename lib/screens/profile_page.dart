@@ -143,7 +143,13 @@ class LoginOutButton extends StatelessWidget {
         ScaffoldMessenger.of(context)
           ..hideCurrentSnackBar()
           ..showSnackBar(SnackBar(content: Text('logout!')));
-        Navigator.push(context, MaterialPageRoute(builder: (context) => LoginPage()));
+        //Phoenix.rebirth(context);
+        //Restart.restartApp(webOrigin: '[your main route]');
+        //Navigator.pushNamedAndRemoveUntil(context, newRouteName, (route) => LoginPage());
+        Navigator.pushAndRemoveUntil(context, MaterialPageRoute(
+            builder: (BuildContext context) =>
+                LoginPage()), (route) => false);
+        //Navigator.push(context, MaterialPageRoute(builder: (context) => LoginPage()));
       },
       child: Text(
         '로그아웃',

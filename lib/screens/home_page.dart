@@ -160,7 +160,11 @@ class _HomePage extends State<HomePage> {
                                 child: Container(
                                   width: MediaQuery.of(context).size.width * 0.30,
                                   height: MediaQuery.of(context).size.width * 0.30,
-                                  child: Image.network(
+                                  child: itemProvider.items[index].img == 'null' ?
+                                  Image.asset(
+                                    'images/no_img.jpg', fit: BoxFit.fill
+                                  ) :
+                                  Image.network(
                                     itemProvider.items[index].img,
                                     fit: BoxFit.fill,
                                   ),

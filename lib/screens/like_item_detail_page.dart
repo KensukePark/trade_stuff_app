@@ -64,9 +64,13 @@ class LikeItemDetailPageState extends State<LikeItemDetailPage> {
                   Stack(
                     children: [
                       Container(
-                          width: MediaQuery.of(context).size.width,
-                          height: MediaQuery.of(context).size.height * 0.4,
-                          child: Image.network(widget.img, fit: BoxFit.fill)
+                        width: MediaQuery.of(context).size.width,
+                        height: MediaQuery.of(context).size.height * 0.4,
+                        child: widget.img == 'null' ?
+                        Image.asset(
+                            'images/no_img.jpg', fit: BoxFit.fill
+                        ) :
+                        Image.network(widget.img, fit: BoxFit.fill)
                       ),
                       Positioned(
                         left: 10,
