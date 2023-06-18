@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import '../model/auth_model.dart';
 import '../model/register_model.dart';
 
+/* 회원가입 페이지 */
 class RegisterPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
