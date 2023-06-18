@@ -7,6 +7,7 @@ import 'package:shopping_app/screens/home_page.dart';
 import 'package:shopping_app/screens/login_page.dart';
 import '../model/like_model.dart';
 
+/* 로그인시 사용할 로딩 페이지 */
 class LoadingPage extends StatefulWidget {
   @override
   _LoadingPage createState() {
