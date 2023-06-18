@@ -11,7 +11,7 @@ import '../screens/item_detail_page.dart';
 import '../model/provider_model.dart';
 import 'add_item_page.dart';
 
-
+/* 모든 판매 게시물을 볼 수 있는 홈 페이지 */
 class HomePage extends StatefulWidget {
   const HomePage({Key? key, required this.email}) : super(key: key);
   final email;
