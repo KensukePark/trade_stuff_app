@@ -7,6 +7,7 @@ import 'package:shopping_app/screens/my_items_list_page.dart';
 import '../model/like_model.dart';
 import '../model/my_provider_model.dart';
 
+/* 내가 올린 게시물들을 불러오기 위해 사용하는 페이지 */
 class LoadingProvider extends StatefulWidget {
   const LoadingProvider({Key? key, required this.email}) : super(key: key);
   final email;
