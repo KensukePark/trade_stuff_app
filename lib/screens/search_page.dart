@@ -8,6 +8,7 @@ import '../model/provider_model.dart';
 import '../model/query_model.dart';
 import 'item_detail_page.dart';
 
+/* 게시물 검색 페이지 */
 class SearchPage extends StatefulWidget {
   const SearchPage({Key? key, required this.email}) : super(key: key);
   final email;
