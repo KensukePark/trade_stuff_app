@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shopping_app/model/like_model.dart';
 
+/* 관심목록에 등록한 게시물 상세 페이지 */
 class LikeItemDetailPage extends StatefulWidget {
   const LikeItemDetailPage({Key? key,
     required this.item,
