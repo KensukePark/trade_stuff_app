@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shopping_app/model/like_model.dart';
 
+/* 판매 게시물 상세 페이지 */
 class ItemDetailPage extends StatefulWidget {
   const ItemDetailPage({Key? key, required this.item, required this.register_date, required this.email}) : super(key: key);
   final item;
