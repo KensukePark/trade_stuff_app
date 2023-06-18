@@ -5,6 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shopping_app/screens/profile_page.dart';
 import 'item_detail_page.dart';
 
+/* 내 게시물 상세 페이지 */
 class MyItemsPage extends StatefulWidget {
   const MyItemsPage({Key? key, required this.myItem, required this.email}) : super(key: key);
   final myItem;
