@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 
+/* 게시물 추가 페이지 */
 class AddItemPage extends StatefulWidget {
   const AddItemPage({Key? key, required this.email, required this.uid}) : super(key: key);
   final email;
