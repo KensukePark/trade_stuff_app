@@ -10,6 +10,7 @@ import 'package:shopping_app/screens/like_item_detail_page.dart';
 import 'package:shopping_app/screens/profile_page.dart';
 import 'package:shopping_app/screens/search_page.dart';
 
+/* 관심목록 페이지 */
 class LikePage extends StatefulWidget {
   const LikePage({Key? key, required this.email}) : super(key: key);
   final email;
