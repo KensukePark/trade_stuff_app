@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'dart:math';
 import 'dart:typed_data';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -39,11 +40,14 @@ class _AddItemPageState extends State<AddItemPage> {
   late int view_count;
   late int like_count;
   bool _isCheck = false;
-
+  late File userImage;
   XFile? _pick;
   Future getImage() async {
     _pick = await _picker.pickImage(source: ImageSource.gallery);
     _isCheck = true;
+    setState(() {
+      userImage = File(_pick!.path);
+    });
   }
   Future uploadImage() async {
     if (_pick != null) {
@@ -143,7 +147,7 @@ class _AddItemPageState extends State<AddItemPage> {
                       color: Colors.grey,
                       image: DecorationImage(
                         fit: BoxFit.fill,
-                        image: AssetImage('images/empty_img.png') as ImageProvider,
+                        image: _pick == null ? AssetImage('images/empty_img.png') as ImageProvider : FileImage(userImage),
                         //image: _isCheck == true ? Image.file(File(_imageFile!.path)) as ImageProvider : AssetImage('images/empty_img.png') as ImageProvider,
                       )
                     ),
@@ -153,11 +157,19 @@ class _AddItemPageState extends State<AddItemPage> {
                       onTap: () {
                         getImage();
                         },
-                        child: Icon(
-                          Icons.camera_alt,
-                          color: Colors.white,
-                          size: 40,
-                        )
+                        child: _pick == null ? Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(
+                              Icons.camera_alt,
+                              color: Colors.white,
+                              size: 40,
+                            ),
+                            Text(
+                              '사진추가'
+                            ),
+                          ],
+                        ) : null,
                     ),
                   ),
                 ],

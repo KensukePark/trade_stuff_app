@@ -90,8 +90,14 @@ class _MyItemsPageState extends State<MyItemsPage> {
                       }
                     }
                     else {
-                      register_print = (hour_now - int.parse(widget.myItem.items[index].registerDate.substring(11,13))).toString() + '시간 전';
+                      if (hour_now - int.parse(widget.myItem.items[index].registerDate.substring(11,13)) > 0) {
+                        register_print = (hour_now - int.parse(widget.myItem.items[index].registerDate.substring(11,13))).toString() + '시간 전';
+                      }
+                      else {
+                        register_print = '방금 전';
+                      }
                     }
+
                     return InkWell(
                       onTap: () {
                         Navigator.push(
