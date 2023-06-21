@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -99,7 +98,6 @@ class _MyItemsPageState extends State<MyItemsPage> {
                             context,
                             MaterialPageRoute(builder: (context) => ItemDetailPage(
                                 item: widget.myItem.items[index],
-                                register_date: register_print,
                                 email: widget.email,)
                             )
                         );
