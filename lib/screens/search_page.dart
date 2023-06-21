@@ -142,7 +142,6 @@ class _SearchPage extends State<SearchPage>{
                         context,
                         MaterialPageRoute(builder: (context) => ItemDetailPage(
                             item: item_provider.find_result[index],
-                            register_date: register_print,
                             email: widget.email,)
                         )
                     );
