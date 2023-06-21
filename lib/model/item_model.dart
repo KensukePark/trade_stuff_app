@@ -9,6 +9,7 @@ class Item {
   late String img;
   late String loc;
   late String idx;
+  late String type;
   late int price;
   late int view_count;
   late int like_count;
@@ -22,6 +23,7 @@ class Item {
     required this.img,
     required this.loc,
     required this.idx,
+    required this.type,
     required this.price,
     required this.view_count,
     required this.like_count,
@@ -37,6 +39,7 @@ class Item {
     img = data['img'];
     loc = data['loc'];
     idx = data['idx'];
+    type = data['type'];
     price = data['price'];
     view_count = data['view_count'];
     like_count = data['like_count'];
@@ -51,6 +54,7 @@ class Item {
     img = data['img'];
     loc = data['loc'];
     idx = data['idx'];
+    type = data['type'];
     price = data['price'];
     view_count = data['view_count'];
     like_count = data['like_count'];
@@ -66,6 +70,7 @@ class Item {
       'img':img,
       'loc':loc,
       'idx':idx,
+      'type':type,
       'price':price,
       'view_count':view_count,
       'like_count':like_count,
