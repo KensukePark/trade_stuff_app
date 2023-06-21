@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:shopping_app/screens/home_page.dart';
 import 'package:shopping_app/screens/loading_provider.dart';
 import 'package:shopping_app/screens/login_page.dart';
+import 'package:shopping_app/screens/modify_page.dart';
 import 'package:shopping_app/screens/search_page.dart';
 import '../model/auth_model.dart';
 import 'like_page.dart';
@@ -110,18 +111,42 @@ class _ProfilePage extends State<ProfilePage>{
                       children: [
                         Icon(
                           Icons.list_alt,
-                          size: 24,
+                          size: 22,
                         ),
                         SizedBox(width: 10.0),
                         Text(
                           '판매 내역',
                           style: TextStyle(
-                            fontSize: 26,
+                            fontSize: 24,
                             fontFamily: 'spoqa'
                           )
                         )
                       ],
                     )
+                  ),
+                ),
+                Container(
+                  padding: EdgeInsets.all(20),
+                  child: InkWell(
+                      onTap: () {
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => modifyPage()));
+                      },
+                      child: Row(
+                        children: [
+                          Icon(
+                            Icons.person_sharp,
+                            size: 22,
+                          ),
+                          SizedBox(width: 10.0),
+                          Text(
+                              '개인정보 수정',
+                              style: TextStyle(
+                                  fontSize: 24,
+                                  fontFamily: 'spoqa'
+                              )
+                          )
+                        ],
+                      )
                   ),
                 ),
               ],
