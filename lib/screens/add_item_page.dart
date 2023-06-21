@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'dart:math';
 import 'dart:typed_data';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -7,7 +6,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:shopping_app/screens/loading_upload_page.dart';
 
 /* 게시물 추가 페이지 */
 class AddItemPage extends StatefulWidget {
@@ -52,14 +50,6 @@ class _AddItemPageState extends State<AddItemPage> {
       Uint8List _bytes = await _pick!.readAsBytes();
       await FirebaseStorage.instance.ref('/image/${id}.jpg').putData(_bytes);
       img = (await FirebaseStorage.instance.ref('/image/${id}.jpg').getDownloadURL()).toString();
-      print(img);
-      print(img);
-      print(img);
-      print(img);
-      print(img);
-      print(img);
-      print(img);
-      print(img);
     }
   }
 
@@ -74,21 +64,11 @@ class _AddItemPageState extends State<AddItemPage> {
 
   getRandom() {
     var _random = Random();
-    //무조건 들어갈 문자종류(문자,숫자,특수기호)의 위치를 기억할 리스트
-    //var leastCharacterIndex = [];
-    //var skipCharacter = [0x3A, 0x3B, 0x3C, 0x3D, 0x3E, 0x3F, 0x40, 0x5B, 0x5C, 0x5D, 0x5E, 0x5F, 0x60]; // 특수문자들 제거
     var min = 0x61; //start ascii  사용할 아스키 문자의 시작
     var max = 0x7A; //end ascii    사용할 아스키 문자의 끝
     var dat = []; //비밀번호 저장용 리스트
     while (dat.length <= 16) {
       var tmp = min + _random.nextInt(max - min);
-      /*
-      if (skipCharacter.contains(tmp)) {
-        //print('skip ascii code $tmp.');
-        continue;
-      }
-       */
-      //dat 리스트에 추가
       dat.add(tmp);
     }
     return String.fromCharCodes(dat.cast<int>());
@@ -120,6 +100,7 @@ class _AddItemPageState extends State<AddItemPage> {
                     'user': user,
                     'view_count': 0,
                     'id': id,
+                    'type': selectedValue,
                   }
                   ),
                   firestore.collection('items').add({
@@ -134,6 +115,7 @@ class _AddItemPageState extends State<AddItemPage> {
                     'user': user,
                     'view_count': 0,
                     'id': id,
+                    'type': selectedValue,
                   }
                   ),
                   Navigator.pop(context),
