@@ -34,6 +34,7 @@ class _HomePage extends State<HomePage> {
   var register_print;
   late int view_temp;
   late String uid = '';
+  int num_item = 0;
   Future<void> getUid() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     uid = prefs.getString('uid') ?? '';
@@ -108,6 +109,7 @@ class _HomePage extends State<HomePage> {
                   itemCount: itemProvider.items.length,
                   itemBuilder: (context, index) {
                     view_temp = itemProvider.items[index].view_count;
+                    num_item = itemProvider.items.length;
                     //int like_temp = itemProvider.items[index].like_count;
                     if ((itemProvider.items[index].registerDate).substring(0,10) != date_now) {
                       //ex) 2023-06-04 substring5,7 => 월, 8,10 => 일
@@ -248,7 +250,7 @@ class _HomePage extends State<HomePage> {
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () {
           Navigator.push(context, MaterialPageRoute(builder: (context) => AddItemPage(
-            email: widget.email, uid: uid,
+            email: widget.email, uid: uid, num: num_item,
           )));
         },
         label: const Text(
