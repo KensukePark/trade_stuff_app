@@ -42,7 +42,6 @@ class _loading_uploadState extends State<loading_upload> {
       Reference ref = FirebaseStorage.instance.ref('/image/${widget.id}.jpg');
       var url = await ref.getDownloadURL();
       new_img = url;
-      print(new_img);
     }
     else {
       new_img = 'null';
