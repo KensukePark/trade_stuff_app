@@ -73,8 +73,6 @@ class _AddItemPageState extends State<AddItemPage> {
     }
     return String.fromCharCodes(dat.cast<int>());
   }
-
-
   @override
   Widget build(BuildContext context) {
     registerDate = (dt.toString()).substring(0,19);
@@ -121,31 +119,6 @@ class _AddItemPageState extends State<AddItemPage> {
                   Navigator.pop(context),
                 }
               });
-              /*
-              if (_isCheck == true) {
-                loadImage().then((value) {
-                  img = value.toString();
-                  print(img);
-                });
-              }
-
-               */
-
-              /*
-              Navigator.push(context, MaterialPageRoute(builder: (context) => loading_upload(
-                email: widget.email,
-                uid: widget.uid,
-                detail: detail,
-                idx: idx,
-                img: img,
-                loc: loc,
-                price: price,
-                registerDate: registerDate, title: title, user: user, id: id,
-                isCheck: _isCheck,
-              )));
-
-               */
-
             },
             child: Text(
               '등록',
@@ -162,7 +135,6 @@ class _AddItemPageState extends State<AddItemPage> {
         child: Column(
           children: [
             SizedBox(
-              height: MediaQuery.of(context).size.height * 0.15,
               child: Row(
                 children: [
                   Container(
@@ -175,12 +147,11 @@ class _AddItemPageState extends State<AddItemPage> {
                         //image: _isCheck == true ? Image.file(File(_imageFile!.path)) as ImageProvider : AssetImage('images/empty_img.png') as ImageProvider,
                       )
                     ),
-                    width: MediaQuery.of(context).size.height * 0.15,
-                    height: MediaQuery.of(context).size.height * 0.15,
+                    width: MediaQuery.of(context).size.width-30,
+                    height: MediaQuery.of(context).size.height * 0.3,
                     child: InkWell(
                       onTap: () {
                         getImage();
-                        //_isCheck = true;
                         },
                         child: Icon(
                           Icons.camera_alt,
@@ -200,14 +171,17 @@ class _AddItemPageState extends State<AddItemPage> {
               decoration: InputDecoration(
                 hintText: '제목',
                 enabledBorder: InputBorder.none,
+                focusedBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(color: Color(0xFF303030)),
+                ),
+                border: UnderlineInputBorder(
+                  borderSide: BorderSide(color: Color(0xFF303030)),
+                ),
               ),
               style: TextStyle(
                 fontSize: 16.0,
               ),
               onChanged: (value) => title = value,
-            ),
-            SizedBox(
-              height: 5,
             ),
             const Divider(thickness: 2,),
             Row(
@@ -217,8 +191,13 @@ class _AddItemPageState extends State<AddItemPage> {
                   width: MediaQuery.of(context).size.width *0.5 - 20,
                   child: TextField(
                     decoration: InputDecoration(
-                      hintText: '￦ 가격',
-                      enabledBorder: InputBorder.none,
+                      hintText: '￦ 가격',enabledBorder: InputBorder.none,
+                      focusedBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(color: Color(0xFF303030)),
+                      ),
+                      border: UnderlineInputBorder(
+                        borderSide: BorderSide(color: Color(0xFF303030)),
+                      ),
                     ),
                     style: TextStyle(
                       fontSize: 16.0,
@@ -246,14 +225,16 @@ class _AddItemPageState extends State<AddItemPage> {
                 ),
               ],
             ),
-            SizedBox(
-              height: 5,
-            ),
             const Divider(thickness: 2,),
             TextField(
               decoration: InputDecoration(
-                hintText: '게시물 내용을 작성해주세요.',
-                enabledBorder: InputBorder.none,
+                hintText: '게시물 내용을 작성해주세요.',enabledBorder: InputBorder.none,
+                focusedBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(color: Color(0xFF303030)),
+                ),
+                border: UnderlineInputBorder(
+                  borderSide: BorderSide(color: Color(0xFF303030)),
+                ),
               ),
               keyboardType: TextInputType.multiline,
               minLines: 10,
