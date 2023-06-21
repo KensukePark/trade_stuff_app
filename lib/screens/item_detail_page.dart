@@ -7,9 +7,8 @@ import 'package:shopping_app/model/like_model.dart';
 
 /* 판매 게시물 상세 페이지 */
 class ItemDetailPage extends StatefulWidget {
-  const ItemDetailPage({Key? key, required this.item, required this.register_date, required this.email}) : super(key: key);
+  const ItemDetailPage({Key? key, required this.item, required this.email}) : super(key: key);
   final item;
-  final register_date;
   final email;
   @override
   ItemDetailPageState createState() => ItemDetailPageState();
@@ -19,6 +18,15 @@ class ItemDetailPageState extends State<ItemDetailPage> {
   late String uid = '';
   late int like_temp = widget.item.like_count;
   late int view_temp = widget.item.view_count + 1;
+  int time = 0;
+  var temp = '';
+  var date_now;
+  var year_now;
+  var mon_now;
+  var day_now;
+  var time_now;
+  late int hour_now;
+  var register_print;
   Future<void> getUid() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     uid = prefs.getString('uid') ?? '';
@@ -33,9 +41,43 @@ class ItemDetailPageState extends State<ItemDetailPage> {
         "view_count": view_temp,
       });
     }
+    if (time == 0) {
+      DateTime dt = DateTime.now();
+      temp = dt.toString();
+      date_now = temp.substring(0,10);
+      year_now = int.parse(temp.substring(0,4));
+      mon_now = int.parse(temp.substring(5,7));
+      day_now = int.parse(temp.substring(8,10));
+      time_now = temp.substring(11,19); //19까지 초시간
+      hour_now = int.parse(temp.substring(11,13));
+      time = 1;
+    }
+    if ((widget.item.registerDate).substring(0,10) != date_now) {
+      //ex) 2023-06-04 substring5,7 => 월, 8,10 => 일
+      var register_year = int.parse((widget.item.registerDate).substring(0,4));
+      var register_mon = int.parse((widget.item.registerDate).substring(5,7));
+      var register_day = int.parse((widget.item.registerDate).substring(8,10));
+      if (register_year == year_now) {
+        if (register_mon == mon_now) {
+          register_print = (day_now - register_day).toString() + '일 전';
+        }
+        else {
+          register_print = (mon_now - register_mon).toString() + '개월 전';
+        }
+      }
+      else {
+        register_print = (year_now - register_year).toString() + '년 전';
+      }
+    }
+    else {
+      if (hour_now - int.parse(widget.item.registerDate.substring(11,13)) > 0) {
+        register_print = (hour_now - int.parse(widget.item.registerDate.substring(11,13))).toString() + '시간 전';
+      }
+      else {
+        register_print = '방금 전';
+      }
+    }
     getUid();
-    print(widget.item.idx);
-    print(uid);
     return Scaffold(
       body: Column(
         children: [
@@ -102,8 +144,14 @@ class ItemDetailPageState extends State<ItemDetailPage> {
                           widget.item.title,
                           style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                         ),
+                        SizedBox(height: 2,),
                         Text(
-                          widget.register_date,
+                          widget.item.type,
+                          style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: Colors.grey),
+                        ),
+                        SizedBox(height: 2,),
+                        Text(
+                          register_print,
                           style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: Colors.grey),
                         ),
                         SizedBox(height: 20.0),
@@ -113,7 +161,7 @@ class ItemDetailPageState extends State<ItemDetailPage> {
                         ),
                         SizedBox(height: 20.0),
                         Text(
-                          '관심 ${like_temp}· 조회${view_temp}',
+                          '관심 ${like_temp} · 조회${view_temp}',
                           style: TextStyle(
                             fontSize: 16,
                             color: Colors.grey,
