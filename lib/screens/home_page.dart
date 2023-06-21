@@ -129,7 +129,12 @@ class _HomePage extends State<HomePage> {
                       }
                     }
                     else {
-                      register_print = (hour_now - int.parse(itemProvider.items[index].registerDate.substring(11,13))).toString() + '시간 전';
+                      if (hour_now - int.parse(itemProvider.items[index].registerDate.substring(11,13)) > 0) {
+                        register_print = (hour_now - int.parse(itemProvider.items[index].registerDate.substring(11,13))).toString() + '시간 전';
+                      }
+                      else {
+                        register_print = '방금 전';
+                      }
                     }
                     return InkWell(
                       onTap: () {
@@ -147,7 +152,6 @@ class _HomePage extends State<HomePage> {
                             context,
                             MaterialPageRoute(builder: (context) => ItemDetailPage(
                                 item: itemProvider.items[index],
-                                register_date: register_print,
                                 email: widget.email,)
                             )
                         );
@@ -192,7 +196,7 @@ class _HomePage extends State<HomePage> {
                                     ),
                                     SizedBox(height: 3.0,),
                                     Text(
-                                      itemProvider.items[index].loc + ' ' + register_print,
+                                      itemProvider.items[index].loc + ' · ' + register_print,
                                       style: TextStyle(
                                         fontSize: 15,
                                         fontWeight: FontWeight.bold,
