@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -26,6 +27,7 @@ class _LoadingPage extends State<LoadingPage> {
   }
 
   void moveScreen() async {
+    getLocation();
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await checkLogin().then((isLogin) {
       if (isLogin) {
@@ -34,6 +36,10 @@ class _LoadingPage extends State<LoadingPage> {
         Navigator.push(context, MaterialPageRoute(builder: (context) => LoginPage()));
       }
     });
+  }
+  void getLocation() async{
+    Position position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+    print(position);
   }
   @override
   void initState() {
