@@ -8,6 +8,7 @@ import '../model/login_model.dart';
 
 /* 로그인 페이지 */
 class LoginPage extends StatelessWidget {
+
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
