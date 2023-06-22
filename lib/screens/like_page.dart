@@ -218,7 +218,6 @@ class _LikePage extends State<LikePage> {
                                 ],
                               ),
                             ),
-
                             Expanded(
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -231,12 +230,12 @@ class _LikePage extends State<LikePage> {
                                         onTap: () {
                                           final usercol = FirebaseFirestore.instance.collection("items").doc(like_provider.like_list[index].id);
                                           usercol.get().then((value) => {
-                                            like_temp = (value.data()?['like_count'] - 1)
+                                            like_temp = (value['like_count'] - 1),
+                                            usercol.update({
+                                              "like_count": like_temp,
+                                            }),
+                                            like_provider.removeItem(uid, like_provider.like_list[index]),
                                           });
-                                          usercol.update({
-                                            "like_count": like_temp,
-                                          });
-                                          like_provider.removeItem(uid, like_provider.like_list[index]);
                                         },
                                         child: Column(
                                           children: [
