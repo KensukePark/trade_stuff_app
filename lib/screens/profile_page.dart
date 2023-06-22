@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shopping_app/screens/home_page.dart';
 import 'package:shopping_app/screens/loading_provider.dart';
 import 'package:shopping_app/screens/login_page.dart';
@@ -21,8 +22,14 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePage extends State<ProfilePage>{
   int _currentIndex = 3;
+  String cur_pw = '';
+  Future<void> getPassword() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    cur_pw = prefs.getString('uid') ?? '';
+  }
   @override
   Widget build(BuildContext context) {
+    getPassword();
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -129,7 +136,7 @@ class _ProfilePage extends State<ProfilePage>{
                   padding: EdgeInsets.all(20),
                   child: InkWell(
                       onTap: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => modifyPage()));
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => modifyPage(cur_pw: cur_pw,)));
                       },
                       child: Row(
                         children: [
