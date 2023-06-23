@@ -1,3 +1,5 @@
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
@@ -6,6 +8,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shopping_app/screens/home_page.dart';
 import 'package:shopping_app/screens/loading_provider.dart';
 import 'package:shopping_app/screens/login_page.dart';
+import 'package:shopping_app/screens/modify_loc_page.dart';
 import 'package:shopping_app/screens/modify_pw_page.dart';
 import 'package:shopping_app/screens/search_page.dart';
 import '../model/auth_model.dart';
@@ -24,14 +27,12 @@ class ProfilePage extends StatefulWidget {
 class _ProfilePage extends State<ProfilePage>{
   int _currentIndex = 3;
   String cur_pw = '';
+  late Position position;
   Future<void> getPassword() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     cur_pw = prefs.getString('password') ?? '';
   }
-  void getLocation() async{
-    Position position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
-    print(position);
-  }
+
   @override
   Widget build(BuildContext context) {
     getPassword();
@@ -151,11 +152,11 @@ class _ProfilePage extends State<ProfilePage>{
                         )
                     ),
                   ),
-                  SizedBox(height: 10,),
+                  SizedBox(height: 15,),
                   Container(
                     child: InkWell(
                         onTap: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => modifyPwPage(cur_pw: cur_pw,)));
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => modifyLocPage()));
                         },
                         child: Row(
                           children: [
