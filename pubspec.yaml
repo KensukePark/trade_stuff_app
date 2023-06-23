@@ -45,6 +45,7 @@ dependencies:
   provider: ^6.0.3
   image_picker: ^0.8.9
   geolocator:
+  http:
   intl:
 
 
