@@ -140,7 +140,6 @@ class _LikePage extends State<LikePage> {
                       var price = 0;
                       final like_provider = Provider.of<LikeProvider>(context, listen: false);
                       final usercol = FirebaseFirestore.instance.collection("items").doc(like_provider.like_list[index].id);
-                      //print(widget.id);
                       usercol.get().then((value) => {
                         Navigator.push(
                           context,
