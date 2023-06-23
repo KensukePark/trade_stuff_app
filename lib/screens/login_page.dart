@@ -84,7 +84,6 @@ class LoginButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final authClient = Provider.of<FirebaseAuthProvider>(context, listen: false);
     final login = Provider.of<LoginModel>(context, listen: false);
-
     return Container(
       width: MediaQuery.of(context).size.width * 0.7,
       height: MediaQuery.of(context).size.height * 0.05,
