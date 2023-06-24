@@ -7,6 +7,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 /* 게시물 추가 페이지 */
 class AddItemPage extends StatefulWidget {
@@ -33,7 +34,7 @@ class _AddItemPageState extends State<AddItemPage> {
   late String registerDate;
   late String detail;
   late String img = 'null';
-  late String loc = '부평구 산곡동';
+  late String loc = '';
   late String idx = widget.uid;
   late String id = '';
   late int price;
@@ -49,6 +50,7 @@ class _AddItemPageState extends State<AddItemPage> {
       userImage = File(_pick!.path);
     });
   }
+
   Future uploadImage() async {
     if (_pick != null) {
       Uint8List _bytes = await _pick!.readAsBytes();
@@ -86,10 +88,12 @@ class _AddItemPageState extends State<AddItemPage> {
         title: Text('판매글 등록'),
         actions: [
           TextButton(
-            onPressed: () {
+            onPressed: () async {
               FirebaseFirestore firestore = FirebaseFirestore.instance;
+              SharedPreferences prefs = await SharedPreferences.getInstance();
               uploadImage().then((value) => {
                 if (_isCheck == true) {
+                  loc = prefs.getString('loca')!,
                   firestore.collection(widget.uid).add({
                     'detail': detail,
                     'idx': idx,
