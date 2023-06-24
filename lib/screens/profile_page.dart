@@ -166,7 +166,7 @@ class _ProfilePage extends State<ProfilePage>{
                             ),
                             SizedBox(width: 10.0),
                             Text(
-                                '내 동네 설정',
+                                '내 지역 설정',
                                 style: TextStyle(
                                     fontSize: 18,
                                     fontFamily: 'spoqa'
