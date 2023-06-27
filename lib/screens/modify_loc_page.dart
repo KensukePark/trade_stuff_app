@@ -26,7 +26,7 @@ class _modifyLocPageState extends State<modifyLocPage> {
     //http.Response response = await http.get(Uri.parse(url));
     //return jsonDecode(response.body)['results'][0]['address_components'][1]['long_name'];
     /*카카오 API 코드*/
-    String kakao_key = '5709c3ba2b2c84b9096249b89718bd47';
+    String kakao_key = '***';
     final kakao_url =
         'https://dapi.kakao.com/v2/local/geo/coord2regioncode.json?x=${position.longitude}&y=${position.latitude}';
     var headers = {'Authorization': 'KakaoAK ${kakao_key}'};
