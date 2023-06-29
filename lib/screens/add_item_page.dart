@@ -43,6 +43,7 @@ class _AddItemPageState extends State<AddItemPage> {
   bool _isCheck = false;
   late File userImage;
   XFile? _pick;
+  String jt = '새상품';
   Future getImage() async {
     _pick = await _picker.pickImage(source: ImageSource.gallery);
     _isCheck = true;
@@ -156,7 +157,7 @@ class _AddItemPageState extends State<AddItemPage> {
                       )
                     ),
                     width: MediaQuery.of(context).size.width-30,
-                    height: MediaQuery.of(context).size.height * 0.3,
+                    height: MediaQuery.of(context).size.height * 0.28,
                     child: InkWell(
                       onTap: () {
                         getImage();
@@ -238,6 +239,82 @@ class _AddItemPageState extends State<AddItemPage> {
                         selectedValue = value;
                       });
                     }
+                ),
+              ],
+            ),
+            const Divider(thickness: 2,),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Expanded(
+                  child: ListTile(
+                      title: Align(
+                        child: Text('새상품',
+                          style: TextStyle(
+                          fontSize: 16,
+                          ),
+                        ),
+                        alignment: Alignment(-4,0),
+                      ),
+                    minLeadingWidth: 0,
+                    contentPadding: EdgeInsets.all(0),
+                    leading: Radio(
+                      value: '새상품',
+                      groupValue: jt,
+                      onChanged: (value) {
+                        setState(() {
+                          jt = value!;
+                        });
+                      },
+                    )
+                  ),
+                ),
+                Expanded(
+                  child: ListTile(
+                    title: Align(
+                      child: Text('거의새것',
+                        style: TextStyle(
+                        fontSize: 16,
+                        ),
+                      ),
+                      alignment: Alignment(-14,0),
+                    ),
+                    contentPadding: EdgeInsets.all(0),
+                    minLeadingWidth: 0,
+                    leading: Radio(
+                      value: '거의새것',
+                      groupValue: jt,
+                      onChanged: (value) {
+                        setState(() {
+                          jt = value!;
+                        });
+                      },
+                    )
+                  ),
+                ),
+                Expanded(
+                  child: ListTile(
+                    title: Align(
+                      child: Text(
+                        '중고',
+                        style: TextStyle(
+                          fontSize: 16,
+                        ),
+                      ),
+                      alignment: Alignment(-2.6,0),
+                    ),
+                    minLeadingWidth: 0,
+                    contentPadding: EdgeInsets.all(0),
+                    leading: Radio(
+                      value: '중고',
+                      groupValue: jt,
+                      onChanged: (value) {
+                        setState(() {
+                          jt = value!;
+                        });
+                      },
+                    )
+                  ),
                 ),
               ],
             ),
