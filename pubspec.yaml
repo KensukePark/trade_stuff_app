@@ -47,6 +47,7 @@ dependencies:
   geolocator:
   http:
   intl:
+  fluttertoast:
 
 
 
