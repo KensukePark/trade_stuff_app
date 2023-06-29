@@ -53,9 +53,9 @@ class _LoadingPage extends State<LoadingPage> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await checkLogin().then((isLogin) {
       if (isLogin) {
-        Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage(email: prefs.getString('email'))));
+        Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => HomePage(email: prefs.getString('email'))), (route) => false);
       } else {
-        Navigator.push(context, MaterialPageRoute(builder: (context) => LoginPage()));
+        Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => LoginPage()), (route) => false);
       }
     });
   }
