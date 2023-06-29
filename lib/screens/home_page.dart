@@ -79,19 +79,19 @@ class _HomePage extends State<HomePage> {
           setState(() {
             _currentIndex = index;
             if(index == 1){
-              Navigator.push(context, MaterialPageRoute(builder: (context) => SearchPage(
+              Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => SearchPage(
                 email: widget.email,
-              )));
+              )), (route) => false);
             }
             if(index == 2){
-              Navigator.push(context, MaterialPageRoute(builder: (context) => LikePage(
+              Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => LikePage(
                 email: widget.email,
-              )));
+              )), (route) => false);
             }
             if(index == 3){
-              Navigator.push(context, MaterialPageRoute(builder: (context) => ProfilePage(
+              Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => ProfilePage(
                 email: widget.email,
-              )));
+              )), (route) => false);
             }
           });
         },
