@@ -1,5 +1,4 @@
-import 'dart:convert';
-import 'package:http/http.dart' as http;
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
@@ -28,11 +27,22 @@ class _ProfilePage extends State<ProfilePage>{
   int _currentIndex = 3;
   String cur_pw = '';
   late Position position;
+  DateTime? currentBackPressTime;
   Future<void> getPassword() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     cur_pw = prefs.getString('password') ?? '';
   }
-
+  Future<bool> onWillPop(){
+    DateTime now = DateTime.now();
+    final msg = "'뒤로가기'버튼을 한 번 더 누르면 종료됩니다.";
+    Fluttertoast.showToast(msg: msg);
+    if(currentBackPressTime == null || now.difference(currentBackPressTime!)
+        > Duration(seconds: 2)) {
+      currentBackPressTime = now;
+      return Future.value(false);
+    }
+    return Future.value(true);
+  }
   @override
   Widget build(BuildContext context) {
     getPassword();
@@ -58,167 +68,170 @@ class _ProfilePage extends State<ProfilePage>{
           setState(() {
             _currentIndex = index;
             if(index == 1){
-              Navigator.push(context, MaterialPageRoute(builder: (context) => SearchPage(
+              Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => SearchPage(
                 email: widget.email,
-              )));
+              )), (route) => false);
             }
             if(index == 0){
-              Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage(
+              Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => HomePage(
                 email: widget.email,
-              )));
+              )), (route) => false);
             }
             if(index == 2){
-              Navigator.push(context, MaterialPageRoute(builder: (context) => LikePage(
+              Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => LikePage(
                 email: widget.email,
-              )));
+              )), (route) => false);
             }
           });
         },
       ),
-      body: Container(
-        padding: EdgeInsets.all(20),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Expanded(
-              child: Column(
-                children: [
-                  SizedBox(height: 20,),
-                  Container(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Row(
-                          children: [
-                            CircleAvatar(
-                              radius: 24,
-                              backgroundColor: Colors.lightBlue,
-                              child: Icon(Icons.person, size: 36),
-                            ),
-                            SizedBox(width: 10.0),
-                            Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  widget.email,
-                                  style: TextStyle(
-                                    fontSize: 16,
+      body: WillPopScope(
+        onWillPop: onWillPop,
+        child: Container(
+          padding: EdgeInsets.all(20),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Expanded(
+                child: Column(
+                  children: [
+                    SizedBox(height: 20,),
+                    Container(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Row(
+                            children: [
+                              CircleAvatar(
+                                radius: 24,
+                                backgroundColor: Colors.lightBlue,
+                                child: Icon(Icons.person, size: 36),
+                              ),
+                              SizedBox(width: 10.0),
+                              Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    widget.email,
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                    ),
                                   ),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                        LoginOutButton(),
-                      ],
-                    ),
-                  ),
-                  SizedBox(height: 20,),
-                  Divider(thickness: 2,),
-                  SizedBox(height: 10,),
-                  Row(
-                    children: [
-                      Text(
-                        '나의 정보',
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontFamily: 'spoqa'
+                                ],
+                              ),
+                            ],
                           ),
-                        ),
-                    ],
-                  ),
-                  SizedBox(height: 10,),
-                  Container(
-                    child: InkWell(
-                        onTap: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => modifyPwPage(cur_pw: cur_pw,)));
-                        },
-                        child: Row(
-                          children: [
-                            Icon(
-                              Icons.person,
-                              size: 20,
-                            ),
-                            SizedBox(width: 10.0),
-                            Text(
-                                '비밀번호 변경',
-                                style: TextStyle(
-                                    fontSize: 18,
-                                    fontFamily: 'spoqa'
-                                )
-                            )
-                          ],
-                        )
+                          LoginOutButton(),
+                        ],
+                      ),
                     ),
-                  ),
-                  SizedBox(height: 15,),
-                  Container(
-                    child: InkWell(
-                        onTap: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => modifyLocPage()));
-                        },
-                        child: Row(
-                          children: [
-                            Icon(
-                              Icons.location_on_outlined,
-                              size: 20,
-                            ),
-                            SizedBox(width: 10.0),
-                            Text(
-                                '내 지역 설정',
-                                style: TextStyle(
-                                    fontSize: 18,
-                                    fontFamily: 'spoqa'
-                                )
-                            )
-                          ],
-                        )
-                    ),
-                  ),
-                  SizedBox(height: 20,),
-                  Divider(thickness: 2,),
-                  SizedBox(height: 10,),
-                  Row(
-                    children: [
-                      Text(
-                        '나의 거래',
-                        style: TextStyle(
+                    SizedBox(height: 20,),
+                    Divider(thickness: 2,),
+                    SizedBox(height: 10,),
+                    Row(
+                      children: [
+                        Text(
+                          '나의 정보',
+                          style: TextStyle(
                             fontSize: 20,
                             fontFamily: 'spoqa'
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 10,),
-                  Container(
-                    child: InkWell(
-                        onTap: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => LoadingProvider(email: widget.email,)));
-                        },
-                        child: Row(
-                          children: [
-                            Icon(
-                              Icons.list_alt,
-                              size: 20,
                             ),
-                            SizedBox(width: 10.0),
-                            Text(
-                                '판매 내역',
-                                style: TextStyle(
-                                    fontSize: 18,
-                                    fontFamily: 'spoqa'
-                                )
-                            )
-                          ],
-                        )
+                          ),
+                      ],
                     ),
-                  ),
+                    SizedBox(height: 10,),
+                    Container(
+                      child: InkWell(
+                          onTap: () {
+                            Navigator.push(context, MaterialPageRoute(builder: (context) => modifyPwPage(cur_pw: cur_pw,)));
+                          },
+                          child: Row(
+                            children: [
+                              Icon(
+                                Icons.person,
+                                size: 20,
+                              ),
+                              SizedBox(width: 10.0),
+                              Text(
+                                  '비밀번호 변경',
+                                  style: TextStyle(
+                                      fontSize: 18,
+                                      fontFamily: 'spoqa'
+                                  )
+                              )
+                            ],
+                          )
+                      ),
+                    ),
+                    SizedBox(height: 15,),
+                    Container(
+                      child: InkWell(
+                          onTap: () {
+                            Navigator.push(context, MaterialPageRoute(builder: (context) => modifyLocPage()));
+                          },
+                          child: Row(
+                            children: [
+                              Icon(
+                                Icons.location_on_outlined,
+                                size: 20,
+                              ),
+                              SizedBox(width: 10.0),
+                              Text(
+                                  '내 지역 설정',
+                                  style: TextStyle(
+                                      fontSize: 18,
+                                      fontFamily: 'spoqa'
+                                  )
+                              )
+                            ],
+                          )
+                      ),
+                    ),
+                    SizedBox(height: 20,),
+                    Divider(thickness: 2,),
+                    SizedBox(height: 10,),
+                    Row(
+                      children: [
+                        Text(
+                          '나의 거래',
+                          style: TextStyle(
+                              fontSize: 20,
+                              fontFamily: 'spoqa'
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 10,),
+                    Container(
+                      child: InkWell(
+                          onTap: () {
+                            Navigator.push(context, MaterialPageRoute(builder: (context) => LoadingProvider(email: widget.email,)));
+                          },
+                          child: Row(
+                            children: [
+                              Icon(
+                                Icons.list_alt,
+                                size: 20,
+                              ),
+                              SizedBox(width: 10.0),
+                              Text(
+                                  '판매 내역',
+                                  style: TextStyle(
+                                      fontSize: 18,
+                                      fontFamily: 'spoqa'
+                                  )
+                              )
+                            ],
+                          )
+                      ),
+                    ),
 
-                ],
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
