@@ -35,50 +35,6 @@ class _modifyPwPageState extends State<modifyPwPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text('비밀번호 변경'),
-        /*
-        actions: [
-          IconButton(
-            onPressed: () {
-              (new_ps != new_ps_confirm) ? showDialog(
-                context: context,
-                barrierDismissible: false,
-                builder: (BuildContext context) {
-                  return AlertDialog(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    title: Column(
-                      children: [
-                        Text('오류'),
-                      ],
-                    ),
-                    content: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          '새 비밀번호와 비밀번호 확인이 일치하지 않습니다.'
-                        ),
-                      ],
-                    ),
-                    actions: [
-                      TextButton(
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                        child: Text('확인'),
-                      )
-                    ],
-                  );
-                },
-              ): null;
-              //Navigator.pop(context);
-            },
-            icon: Icon(Icons.check),
-          )
-        ],
-
-         */
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(15.0),
@@ -175,6 +131,7 @@ class _modifyPwPageState extends State<modifyPwPage> {
                 new_ps == new_ps_confirm && new_ps_confirm != '' ? Icon(Icons.check, color: Colors.green,) : Icon(Icons.check, color: Colors.red,),
               ],
             ),
+            const Divider(thickness: 2,),
             SizedBox(height: 15.0),
             Container(
               width: MediaQuery.of(context).size.width * 0.7,
