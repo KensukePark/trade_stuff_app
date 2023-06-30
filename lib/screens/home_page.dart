@@ -43,7 +43,7 @@ class _HomePage extends State<HomePage> {
   }
   Future<bool> onWillPop(){
     DateTime now = DateTime.now();
-    final msg = "'뒤로가기'버튼을 한 번 더 누르면 종료됩니다.";
+    final msg = "뒤로가기 버튼을 한 번 더 누르면 어플리케이션을 종료합니다.";
     Fluttertoast.showToast(msg: msg);
     if(currentBackPressTime == null || now.difference(currentBackPressTime!)
         > Duration(seconds: 2)) {
@@ -195,6 +195,7 @@ class _HomePage extends State<HomePage> {
                                   width: 15.0,
                                 ),
                                 Container(
+                                  width: MediaQuery.of(context).size.width * 0.45,
                                   height: MediaQuery.of(context).size.width * 0.30,
                                   child: Column(
                                     mainAxisAlignment: MainAxisAlignment.start,
@@ -207,6 +208,7 @@ class _HomePage extends State<HomePage> {
                                           fontSize: 15,
                                           fontWeight: FontWeight.bold,
                                           color: Colors.white,
+                                          overflow: TextOverflow.ellipsis,
                                         ),
                                       ),
                                       SizedBox(height: 3.0,),
