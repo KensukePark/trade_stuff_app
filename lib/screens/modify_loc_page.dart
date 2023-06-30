@@ -51,11 +51,14 @@ class _modifyLocPageState extends State<modifyLocPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: SpinKitFadingCircle(
-          color: Colors.white,
-          size: 80.0,
+    return WillPopScope(
+      onWillPop: () async => false,
+      child: Scaffold(
+        body: Center(
+          child: SpinKitFadingCircle(
+            color: Colors.white,
+            size: 80.0,
+          ),
         ),
       ),
     );
