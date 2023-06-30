@@ -180,6 +180,7 @@ class _SearchPage extends State<SearchPage>{
                               width: 15.0,
                             ),
                             Container(
+                              width: MediaQuery.of(context).size.width * 0.45,
                               height: MediaQuery.of(context).size.width * 0.30,
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.start,
@@ -192,6 +193,7 @@ class _SearchPage extends State<SearchPage>{
                                       fontSize: 15,
                                       fontWeight: FontWeight.bold,
                                       color: Colors.white,
+                                      overflow: TextOverflow.ellipsis,
                                     ),
                                   ),
                                   SizedBox(height: 3.0,),
