@@ -4,11 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:shopping_app/screens/buy_list_page.dart';
 import 'package:shopping_app/screens/home_page.dart';
 import 'package:shopping_app/screens/loading_provider.dart';
 import 'package:shopping_app/screens/login_page.dart';
 import 'package:shopping_app/screens/modify_loc_page.dart';
 import 'package:shopping_app/screens/modify_pw_page.dart';
+import 'package:shopping_app/screens/profile_like_page.dart';
 import 'package:shopping_app/screens/search_page.dart';
 import '../model/auth_model.dart';
 import 'like_page.dart';
@@ -115,7 +117,7 @@ class _ProfilePage extends State<ProfilePage>{
                                   Text(
                                     widget.email,
                                     style: TextStyle(
-                                      fontSize: 16,
+                                      fontSize: 18,
                                     ),
                                   ),
                                 ],
@@ -134,7 +136,7 @@ class _ProfilePage extends State<ProfilePage>{
                         Text(
                           '나의 정보',
                           style: TextStyle(
-                            fontSize: 20,
+                            fontSize: 24,
                             fontFamily: 'spoqa'
                             ),
                           ),
@@ -156,7 +158,7 @@ class _ProfilePage extends State<ProfilePage>{
                               Text(
                                   '비밀번호 변경',
                                   style: TextStyle(
-                                      fontSize: 18,
+                                      fontSize: 24,
                                       fontFamily: 'spoqa'
                                   )
                               )
@@ -180,7 +182,7 @@ class _ProfilePage extends State<ProfilePage>{
                               Text(
                                   '내 지역 설정',
                                   style: TextStyle(
-                                      fontSize: 18,
+                                      fontSize: 24,
                                       fontFamily: 'spoqa'
                                   )
                               )
@@ -196,7 +198,7 @@ class _ProfilePage extends State<ProfilePage>{
                         Text(
                           '나의 거래',
                           style: TextStyle(
-                              fontSize: 20,
+                              fontSize: 24,
                               fontFamily: 'spoqa'
                           ),
                         ),
@@ -216,9 +218,9 @@ class _ProfilePage extends State<ProfilePage>{
                               ),
                               SizedBox(width: 10.0),
                               Text(
-                                  '판매 내역',
+                                  '판매내역',
                                   style: TextStyle(
-                                      fontSize: 18,
+                                      fontSize: 24,
                                       fontFamily: 'spoqa'
                                   )
                               )
@@ -226,7 +228,54 @@ class _ProfilePage extends State<ProfilePage>{
                           )
                       ),
                     ),
-
+                    SizedBox(height: 15,),
+                    Container(
+                      child: InkWell(
+                          onTap: () {
+                            Navigator.push(context, MaterialPageRoute(builder: (context) => BuyPage()));
+                          },
+                          child: Row(
+                            children: [
+                              Icon(
+                                Icons.attach_money,
+                                size: 20,
+                              ),
+                              SizedBox(width: 10.0),
+                              Text(
+                                  '구매내역',
+                                  style: TextStyle(
+                                      fontSize: 24,
+                                      fontFamily: 'spoqa'
+                                  )
+                              )
+                            ],
+                          )
+                      ),
+                    ),
+                    SizedBox(height: 15,),
+                    Container(
+                      child: InkWell(
+                          onTap: () {
+                            Navigator.push(context, MaterialPageRoute(builder: (context) => ProfileLikePage()));
+                          },
+                          child: Row(
+                            children: [
+                              Icon(
+                                Icons.favorite,
+                                size: 20,
+                              ),
+                              SizedBox(width: 10.0),
+                              Text(
+                                  '관심목록',
+                                  style: TextStyle(
+                                      fontSize: 24,
+                                      fontFamily: 'spoqa'
+                                  )
+                              )
+                            ],
+                          )
+                      ),
+                    ),
                   ],
                 ),
               ),
