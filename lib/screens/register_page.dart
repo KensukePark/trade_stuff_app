@@ -6,6 +6,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+import 'package:shopping_app/screens/phone_auth_page.dart';
 import '../model/auth_model.dart';
 import '../model/register_model.dart';
 import 'home_page.dart';
@@ -35,8 +36,10 @@ class _RegisterPage extends State<RegisterPage> {
   late PhoneAuthCredential phoneAuthCredential;
   void signFun(PhoneAuthCredential phoneAuthCredential) async {
     try {
-      final authCredential = await _auth.signInWithCredential(phoneAuthCredential);
-      if (authCredential.user != null) {
+      //final authCredential = await _auth.signInWithCredential(phoneAuthCredential);
+      print(_auth.currentUser?.email);
+      final authCredential = await _auth.currentUser?.linkWithCredential(phoneAuthCredential);
+      if (authCredential != null) {
         setState(() {
           print('인증완료');
           _showCheckAuth = true;
@@ -129,10 +132,14 @@ class _RegisterPage extends State<RegisterPage> {
       create: (_) => RegisterModel(),
       child: Builder(builder: (BuildContext context) {
         return Scaffold(
-          appBar: AppBar(),
+          appBar: AppBar(
+            title: Text(
+              '회원가입'
+            ),
+          ),
           body: SingleChildScrollView(
             child: Container(
-              padding: EdgeInsets.all(10),
+              padding: EdgeInsets.all(15),
               child: Column(
                 children: [
                   Container(
@@ -187,6 +194,7 @@ class _RegisterPage extends State<RegisterPage> {
                   ),
                   PasswordInput(),
                   PasswordConfirmInput(),
+                  /*
                   Container(
                     padding: EdgeInsets.all(5),
                     child: Row(
@@ -291,6 +299,7 @@ class _RegisterPage extends State<RegisterPage> {
                     ),
                   )
                       : Container(),
+                  */
                   Container(
                     width: MediaQuery.of(context).size.width * 0.7,
                     height: MediaQuery.of(context).size.height * 0.05,
@@ -304,9 +313,9 @@ class _RegisterPage extends State<RegisterPage> {
                           _idCheck == false || //중복확인을 하지 않았거나 중복된 아이디거나
                           email == '' || //이메일이 입력되지 않았거나
                           context.read<RegisterModel>().password == '' ||  //패스워드가 입력되지 않았거나
-                          context.read<RegisterModel>().password != context.read<RegisterModel>().passwordConfirm || //패스워드 확인이 다르거나
-                          _authCheck == false //휴대폰 인증이 되지 않은 경우 회원가입 버튼 비활성화
-                      ) ? null : () async {
+                          context.read<RegisterModel>().password != context.read<RegisterModel>().passwordConfirm //패스워드 확인이 다르거나
+                          //_authCheck == false //휴대폰 인증이 되지 않은 경우 회원가입 버튼 비활성화
+                      ) ? () {Navigator.push(context, MaterialPageRoute(builder: (context) => phoneAuthPage(email: authClient.user!.email!)));} : () async {
                         await authClient
                             .auth_register(context.read<RegisterModel>().email, context.read<RegisterModel>().password)
                             .then((registerStatus) {
@@ -325,10 +334,11 @@ class _RegisterPage extends State<RegisterPage> {
                                   ..showSnackBar(SnackBar(
                                       content:
                                       Text('welcome! ' + authClient.user!.email! + ' ')));
-                                _auth.currentUser!.linkWithCredential(phoneAuthCredential);
-                                Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage(
-                                    email: authClient.user!.email!
-                                )));
+                                Navigator.push(context, MaterialPageRoute(builder: (context) => phoneAuthPage(email: authClient.user!.email!)));
+                                //_auth.currentUser!.linkWithCredential(phoneAuthCredential);
+                                //Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage(
+                                //    email: authClient.user!.email!
+                                //)));
                               } else {
                                 ScaffoldMessenger.of(context)
                                   ..hideCurrentSnackBar()
