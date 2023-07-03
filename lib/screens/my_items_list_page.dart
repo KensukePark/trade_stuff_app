@@ -105,7 +105,6 @@ class _MyItemsPageState extends State<MyItemsPage> {
                           register_print = '방금 전';
                         }
                       }
-
                       return InkWell(
                         onTap: () {
                           Navigator.push(
