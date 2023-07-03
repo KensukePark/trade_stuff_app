@@ -14,6 +14,10 @@ class ItemDetailPage extends StatefulWidget {
   ItemDetailPageState createState() => ItemDetailPageState();
 }
 
+enum Menu {
+  change,
+  delete,
+}
 class ItemDetailPageState extends State<ItemDetailPage> {
   late String uid = '';
   late int like_temp = widget.item.like_count;
@@ -30,6 +34,28 @@ class ItemDetailPageState extends State<ItemDetailPage> {
   Future<void> getUid() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     uid = prefs.getString('uid') ?? '';
+  }
+  showPopupMenue() {
+    showMenu<String>(
+        context: context,
+        position: RelativeRect.fromLTRB(25, 25, 0, 0),
+        items: [
+          PopupMenuItem<String>(
+            child: Text('수정하기'), value: 'fir',
+          ),
+          PopupMenuItem<String>(
+            child: Text('삭제하기'), value: 'sec',
+          ),
+        ]
+    ).then<void>((String? itemSelected) {
+      if (itemSelected == null) return;
+      if (itemSelected == 'fir') {
+        print('수정하기');
+      }
+      else if (itemSelected == 'sec') {
+        print('삭제하기');
+      }
+    });
   }
   NumberFormat format = NumberFormat('#,###');
   @override
@@ -108,6 +134,20 @@ class ItemDetailPageState extends State<ItemDetailPage> {
                           icon: Icon(Icons.arrow_back_ios, color: Colors.white),
                         ),
                       ),
+                      (widget.item.user == (widget.email).substring(0, (widget.email).indexOf('@'))) ?
+                        Positioned(
+                          right: 10,
+                          top: 10,
+                          child: IconButton(
+                            onPressed: () {
+                              showPopupMenue();
+                            },
+                            icon: Icon(Icons.more_horiz, color: Colors.white, size: 32),
+                          ),
+                        ) :
+                          Text(''),
+
+
                     ],
                   ),
                   Container(
