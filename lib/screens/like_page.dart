@@ -290,7 +290,7 @@ class _LikePage extends State<LikePage> {
             },
           )
         ),
-      )
+      ),
     );
   }
 }
