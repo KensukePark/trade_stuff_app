@@ -147,7 +147,7 @@ class LikeItemDetailPageState extends State<LikeItemDetailPage> {
                               mainAxisAlignment: MainAxisAlignment.start,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text(widget.user),
+                                Text(widget.user.substring(0, widget.user.indexOf('@'))),
                                 Text(widget.loc)
                               ],
                             )
@@ -164,12 +164,12 @@ class LikeItemDetailPageState extends State<LikeItemDetailPage> {
                         ),
                         SizedBox(height: 2,),
                         Text(
-                          widget.item.type,
+                          '- '+ widget.item.type + '·' + register_print,
                           style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: Colors.grey),
                         ),
                         SizedBox(height: 2,),
                         Text(
-                          register_print,
+                          '- '+ widget.item.state,
                           style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: Colors.grey),
                         ),
                         SizedBox(height: 20.0),
