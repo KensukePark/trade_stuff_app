@@ -165,13 +165,27 @@ class _MyItemsPageState extends State<MyItemsPage> {
                                         ),
                                       ),
                                       SizedBox(height: 3.0,),
-                                      Text(
-                                        format.format(widget.myItem.items[index].price) + '원',
-                                        style: TextStyle(
-                                          fontSize: 15,
-                                          fontWeight: FontWeight.bold,
-                                          color: Colors.white,
-                                        ),
+                                      Row(
+                                        children: [
+                                          widget.myItem.items[index].selling != '판매중' ?
+                                          Text(
+                                            widget.myItem.items[index].selling + ' ',
+                                            style: TextStyle(
+                                              fontSize: 15,
+                                              fontWeight: FontWeight.bold,
+                                              color: Colors.white,
+                                            ),
+                                          ) :
+                                          Text(''),
+                                          Text(
+                                            format.format(widget.myItem.items[index].price) + '원',
+                                            style: TextStyle(
+                                              fontSize: 15,
+                                              fontWeight: FontWeight.bold,
+                                              color: Colors.white,
+                                            ),
+                                          ),
+                                        ],
                                       ),
                                     ],
                                   ),
