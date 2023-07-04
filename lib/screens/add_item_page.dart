@@ -2,6 +2,7 @@ import 'dart:io';
 import 'dart:math';
 import 'dart:typed_data';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -29,7 +30,8 @@ class _AddItemPageState extends State<AddItemPage> {
   String selectedValue = '디지털기기';
   ImagePicker _picker = ImagePicker();
   DateTime dt = DateTime.now();
-  late String user = widget.email.substring(0, widget.email.indexOf('@'));
+  //late String user = widget.email.substring(0, widget.email.indexOf('@'));
+  late String user = widget.email;
   late String title;
   late String registerDate;
   late String detail;
@@ -42,6 +44,7 @@ class _AddItemPageState extends State<AddItemPage> {
   late int like_count;
   bool _isCheck = false;
   late File userImage;
+  String phone_num = '0' + (FirebaseAuth.instance.currentUser!.phoneNumber).toString().substring(3);
   XFile? _pick;
   String jt = '새상품';
   Future getImage() async {
@@ -106,8 +109,11 @@ class _AddItemPageState extends State<AddItemPage> {
                     'title': title,
                     'user': user,
                     'view_count': 0,
-                    'id': id,
+                    'idd': id,
                     'type': selectedValue,
+                    'state': jt,
+                    'selling': '판매중',
+                    'phone': phone_num,
                   }
                   ),
                   firestore.collection('items').add({
@@ -121,8 +127,11 @@ class _AddItemPageState extends State<AddItemPage> {
                     'title': title,
                     'user': user,
                     'view_count': 0,
-                    'id': id,
+                    'idd': id,
                     'type': selectedValue,
+                    'state': jt,
+                    'selling': '판매중',
+                    'phone': phone_num,
                   }
                   ),
                   Navigator.pop(context),
