@@ -13,6 +13,10 @@ class Item {
   late int price;
   late int view_count;
   late int like_count;
+  late String state;
+  late String selling;
+  late String idd;
+  late String phone;
 
   Item({
     required this.id,
@@ -27,6 +31,10 @@ class Item {
     required this.price,
     required this.view_count,
     required this.like_count,
+    required this.state,
+    required this.selling,
+    required this.idd,
+    required this.phone,
   });
 
   Item.fromSnapshot(DocumentSnapshot snapshot) {
@@ -43,6 +51,10 @@ class Item {
     price = data['price'];
     view_count = data['view_count'];
     like_count = data['like_count'];
+    state = data['state'];
+    selling = data['selling'];
+    idd = data['idd'];
+    phone = data['phone'];
   }
 
   Item.fromMap(Map<String, dynamic> data) {
@@ -58,6 +70,10 @@ class Item {
     price = data['price'];
     view_count = data['view_count'];
     like_count = data['like_count'];
+    state = data['state'];
+    selling = data['selling'];
+    idd = data['idd'];
+    phone = data['phone'];
   }
 
   Map<String, dynamic> toSnapshot() {
@@ -74,6 +90,10 @@ class Item {
       'price':price,
       'view_count':view_count,
       'like_count':like_count,
+      'state':state,
+      'selling':selling,
+      'idd':idd,
+      'phone':phone,
     };
   }
 
