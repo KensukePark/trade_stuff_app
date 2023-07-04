@@ -222,13 +222,27 @@ class _HomePage extends State<HomePage> {
                                         ),
                                       ),
                                       SizedBox(height: 3.0,),
-                                      Text(
-                                        format.format(itemProvider.items[index].price) + '원',
-                                        style: TextStyle(
-                                          fontSize: 15,
-                                          fontWeight: FontWeight.bold,
-                                          color: Colors.white,
-                                        ),
+                                      Row(
+                                        children: [
+                                          itemProvider.items[index].selling != '판매중' ?
+                                          Text(
+                                            itemProvider.items[index].selling + ' ',
+                                            style: TextStyle(
+                                              fontSize: 15,
+                                              fontWeight: FontWeight.bold,
+                                              color: Colors.white,
+                                            ),
+                                          ) :
+                                          Text(''),
+                                          Text(
+                                            format.format(itemProvider.items[index].price) + '원',
+                                            style: TextStyle(
+                                              fontSize: 15,
+                                              fontWeight: FontWeight.bold,
+                                              color: Colors.white,
+                                            ),
+                                          ),
+                                        ],
                                       ),
                                     ],
                                   ),
