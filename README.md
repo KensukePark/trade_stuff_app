@@ -13,6 +13,7 @@ Dart 3.0.2 <br>
 <img src="shop_app_04.png" width="225" height="400"/>
 <img src="shop_app_05.png" width="225" height="400"/>
 <img src="shop_app_06_new.png" width="225" height="400"/>
+<img src="shop_app_08_new.png" width="225" height="400"/>
 <img src="shop_app_06_01_new.png" width="225" height="400"/>
 <img src="shop_app_07_new.png" width="225" height="400"/>
 <img src="shop_app_09_new.png" width="225" height="400"/>
